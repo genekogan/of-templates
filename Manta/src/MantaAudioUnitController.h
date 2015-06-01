@@ -25,6 +25,9 @@ public:
 
     void mapSelectionToMidiNotes();
     void clearMidiMapping();
+    
+    void setKey(int key);
+    void setMode(int mode);
 
 private:
     

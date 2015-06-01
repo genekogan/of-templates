@@ -16,6 +16,8 @@ void ofApp::setup(){
     manta.mapPadToParameter(0, 0, synth.getParameter("output_reverb"));
 
     // changing key/mode
+    manta.setKey(0);    // 0=C
+    manta.setMode(0);   // 0=ionian ... 6=locrian, 7=natural min., 8=harmonic, 9=melodic
 }
 
 //--------------------------------------------------------------

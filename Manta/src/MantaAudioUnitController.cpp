@@ -72,7 +72,18 @@ void MantaAudioUnitController::setMidiMapping(int idx)
     int octave1 = octave + floor((2 * row - floor(row / 2) + col) / 7);
     midiMap[idx] = getNoteAtScaleDegree(key, degree, mode, octave1);
     setPadLedState(row, col, Manta::Red);
+}
 
+void MantaAudioUnitController::setKey(int key)
+{
+    this->key = key;
+    resetMidiMapping();
+}
+
+void MantaAudioUnitController::setMode(int mode)
+{
+    this->mode = mode;
+    resetMidiMapping();
 }
 
 void MantaAudioUnitController::PadEvent(ofxMantaEvent & evt)
@@ -117,14 +128,14 @@ void MantaAudioUnitController::ButtonVelocityEvent(ofxMantaEvent & evt)
 
 void MantaAudioUnitController::setupTheory()
 {
-    int major_[7] = {0, 2, 4, 5, 7, 9, 11};
+    int major_[7]  = {0, 2, 4, 5, 7, 9, 11};
     int minorN_[7] = {0, 2, 3, 5, 7, 8, 10};
     int minorH_[7] = {0, 2, 3, 5, 7, 8, 11};
     int minorM_[7] = {0, 2, 3, 5, 7, 9, 11};
     for (auto m : major_)   major.push_back(m);
-    for (auto m : minorN_)   minorN.push_back(m);
-    for (auto m : minorH_)   minorH.push_back(m);
-    for (auto m : minorM_)   minorM.push_back(m);
+    for (auto m : minorN_)  minorN.push_back(m);
+    for (auto m : minorH_)  minorH.push_back(m);
+    for (auto m : minorM_)  minorM.push_back(m);
     key = 0;
     mode = 0;
     octave = 5;
@@ -139,7 +150,7 @@ void MantaAudioUnitController::getChord(int chord[], int root, int octave)
 
 int MantaAudioUnitController::getNoteAtScaleDegree(int root, int degree, int mode, int octave)
 {
-    if      (mode < 7) {
+    if      (mode  < 7) {
         return (octave + floor((mode + degree) / 7)) * 12 + root + major[(mode + degree) % 7] - major[mode];
     }
     else if (mode == 7) {
