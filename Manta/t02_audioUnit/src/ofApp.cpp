@@ -1,25 +1,21 @@
 #include "ofApp.h"
 
+
 //--------------------------------------------------------------
 void ofApp::setup(){
+    synth.setup('aumu', 'Aalt', 'MLbs');
+    synth.showUI();
+    
+    synth.getSynth().connectTo(mixer, 0);
+    mixer.connectTo(output);
+    output.start();
+    
     manta.setup();
+    manta.setAudioUnit(&synth.getSynth());
     
-    // manta values are stored as ofParameters, so you can keep a persistent reference to them
-    padRef.makeReferenceTo(manta.getPad(0, 0));
-    sliderRef.makeReferenceTo(manta.getSlider(0));
-    buttonRef.makeReferenceTo(manta.getButton(0));
-   
-    // get other values
-    
-    
-    // map to osc
-    
-    
-    // map to midi
-    
-    
-    // get area of convex hull
+    manta.mapPadToParameter(0, 0, synth.getParameter("output_reverb"));
 
+    // changing key/mode
 }
 
 //--------------------------------------------------------------
@@ -33,52 +29,52 @@ void ofApp::draw(){
     manta.drawStats(450, 50, 400);
 
     ofSetColor(0);
-    ofDrawBitmapString("value of "+padRef.getName()+" = "+ofToString(padRef), 20, 450);
-    ofDrawBitmapString("value of "+sliderRef.getName()+" = "+ofToString(sliderRef), 20, 470);
-    ofDrawBitmapString("value of "+buttonRef.getName()+" = "+ofToString(buttonRef), 20, 490);
+    synth.draw(5, 20);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if (key=='z') {
+        manta.mapSelectionToMidiNotes();
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
-
+    
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
+void ofApp::dragEvent(ofDragInfo dragInfo){
+    
 }

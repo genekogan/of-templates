@@ -1,41 +1,30 @@
 #include "ofApp.h"
 
+
 //--------------------------------------------------------------
 void ofApp::setup(){
-    manta.setup();
-    
-    // manta values are stored as ofParameters, so you can keep a persistent reference to them
-    padRef.makeReferenceTo(manta.getPad(0, 0));
-    sliderRef.makeReferenceTo(manta.getSlider(0));
-    buttonRef.makeReferenceTo(manta.getButton(0));
-   
-    // get other values
-    
-    
-    // map to osc
-    
-    
-    // map to midi
-    
-    
-    // get area of convex hull
+    synth.setup('aumu', 'Aalt', 'MLbs');
+    synth.showUI();
 
+    synth.getSynth().connectTo(mixer, 0);
+    mixer.connectTo(output);
+    output.start();
+    
+    
+    p.makeReferenceTo(synth.getParameter("output_reverb"));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 
+    if (ofGetKeyPressed()) p.set((float) ofGetMouseX() / ofGetWidth());
+    cout << p << endl;
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    manta.draw(20, 50, 400);
-    manta.drawStats(450, 50, 400);
-
     ofSetColor(0);
-    ofDrawBitmapString("value of "+padRef.getName()+" = "+ofToString(padRef), 20, 450);
-    ofDrawBitmapString("value of "+sliderRef.getName()+" = "+ofToString(sliderRef), 20, 470);
-    ofDrawBitmapString("value of "+buttonRef.getName()+" = "+ofToString(buttonRef), 20, 490);
+    synth.draw(5, 20);
 }
 
 //--------------------------------------------------------------
