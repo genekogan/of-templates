@@ -18,6 +18,8 @@ void ofApp::setup(){
     //We could inspect the skeletons and draw them here in ofApp
     //but for now let's pass the list to a default renderer class
     renderer.setup(skeletons, largeFont);
+    
+    send.setup("192.168.1.68", 12347);
 }
 
 void ofApp::update(){
@@ -34,7 +36,13 @@ void ofApp::draw(){
     
     //We passed the skeleton list pointer to the renderer earlier,
     //now we tell it to draw them
-    renderer.draw();
+    if (kinect.hasSkeletons())
+        renderer.draw();
+    
+    if (kinect.hasSkeletons()) {
+        cout << kinect.getNearestSkeleton()->getHandRight().y() << endl;
+        //ofxOscMessage
+    }
     
     //If you want to stop using the default renderer and start
     //drawing your own graphics, uncomment this for a starting point:

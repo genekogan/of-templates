@@ -4,6 +4,7 @@
 #include "ofxAudioUnit.h"
 #include "AudioUnitInstrument.h"
 #include "ofxKinectV2OSC.h"
+#include "ofxMapper.h"
 
 class ofApp : public ofBaseApp{
     
@@ -23,12 +24,9 @@ public:
     void gotMessage(ofMessage msg);
     
     ofxKinectV2OSC kinect;
-    Skeleton* skeleton;
-    vector<Skeleton>* skeletons;
-    ofTrueTypeFont smallFont, largeFont;
-    
     BodyRenderer renderer;
     
+    Skeleton *skeleton;
     
     AudioUnitInstrument synth;
     ofxAudioUnitMixer mixer;
@@ -37,4 +35,7 @@ public:
     int drawView;
 
     ofParameter<float> p, q;
+    
+    ofxMapper mapper;
+    bool isMapped;
 };

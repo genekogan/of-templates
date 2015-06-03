@@ -17,10 +17,8 @@
 		28090DEB5109115003E8F1C5 /* UdpSocketWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5928AA323F5C2690B06C837D /* UdpSocketWin.cpp */; };
 		2B33B0211E062CB61C7FAEF9 /* ofxAudioUnitDSPNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA63A01981FA6FCF6879A5C3 /* ofxAudioUnitDSPNode.cpp */; };
 		2D5FF7F2ACFB45212BC7739D /* ofxAudioUnitCocoaUtilties.mm in Sources */ = {isa = PBXBuildFile; fileRef = FF9373CF95715BD3B8B9E8F9 /* ofxAudioUnitCocoaUtilties.mm */; };
-		38B71BBB0749BF5FBB132556 /* ofxAbletonLive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCF2FE3A419A16F9D3A806C7 /* ofxAbletonLive.cpp */; };
 		4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0AED834CE4DEC5260AF302A2 /* ofxOscParameterSync.cpp */; };
 		510CAFE035E576A4E1502D52 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6DEF695B88BA5FAACEAA937 /* UdpSocket.cpp */; };
-		547B74FF3416E79DAD062B3E /* ofxAbletonLiveTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AE19B54624EA5DED3AF70A /* ofxAbletonLiveTrack.cpp */; };
 		5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF49D76C45D5DB505A234880 /* ofxOscMessage.cpp */; };
 		62545D179C94265CA1389D4A /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63A47AC60FFAFC3BF093EC0F /* OscOutboundPacketStream.cpp */; };
 		640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2FAC65C491D4231379F3298 /* ofxOscReceiver.cpp */; };
@@ -35,16 +33,26 @@
 		8B4B9605C076F9088F028D61 /* Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38DBC8D25BE4A15EE388FA7E /* Joint.cpp */; };
 		8F5205AEF8861EF234F0651A /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81967292BFC87A0144BD32C6 /* ofxOscSender.cpp */; };
 		9780A09AECE86A91413F1249 /* Mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 583E7F54B84A88FD5D4B5C1A /* Mapper.cpp */; };
-		9BBDD8855741076B5783D568 /* ofxAbletonLiveClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40C841E81178E7BEFAAE9ABF /* ofxAbletonLiveClip.cpp */; };
 		A1D93B3B282E51FD3DED5313 /* ofxAudioUnitInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921304ABBEE9BBAD13436898 /* ofxAudioUnitInput.cpp */; };
 		A29D8C96AE042ECEAA1BD4F3 /* NetworkingUtilsWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5B1FAD3F30C8065C396ACB /* NetworkingUtilsWin.cpp */; };
 		AA26BBDA5E32E5BB20C82ADD /* ofxAudioUnitRecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7FB5F74C69D4E17560BB615E /* ofxAudioUnitRecorder.cpp */; };
 		AB6830767302568AB46DC937 /* ofxAudioUnitSpeechSynth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 39A11AF55C4BFFBB589C8D0D /* ofxAudioUnitSpeechSynth.cpp */; };
 		ADE367465D2A8EBAD4C7A8D9 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADD194746185E2DA11468377 /* IpEndpointName.cpp */; };
-		AFFB17AA4F2B45440FD9E280 /* ofxAbletonLiveDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91CD45D371ED66231137B49D /* ofxAbletonLiveDevice.cpp */; };
 		B07437B91B1D24B700F2D74F /* AudioUnitInstrument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437B71B1D24B700F2D74F /* AudioUnitInstrument.cpp */; };
 		B07437BC1B1D254F00F2D74F /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B07437BA1B1D254F00F2D74F /* AudioUnit.framework */; };
 		B07437BD1B1D254F00F2D74F /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B07437BB1B1D254F00F2D74F /* CoreAudioKit.framework */; };
+		B07437D01B1D381F00F2D74F /* ofxKinectFeatures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437CA1B1D37AA00F2D74F /* ofxKinectFeatures.cpp */; };
+		B07437D11B1D381F00F2D74F /* ofxKinectSkeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437CC1B1D37AA00F2D74F /* ofxKinectSkeleton.cpp */; };
+		B07437D21B1D381F00F2D74F /* ofxMocapElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437CE1B1D37AA00F2D74F /* ofxMocapElement.cpp */; };
+		B07437D71B1D3ABD00F2D74F /* ofxMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437D51B1D3ABD00F2D74F /* ofxMapper.cpp */; };
+		B07437EB1B1D3BB400F2D74F /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437DA1B1D3BB400F2D74F /* ofxBaseGui.cpp */; };
+		B07437EC1B1D3BB400F2D74F /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437DC1B1D3BB400F2D74F /* ofxButton.cpp */; };
+		B07437ED1B1D3BB400F2D74F /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437DF1B1D3BB400F2D74F /* ofxGuiGroup.cpp */; };
+		B07437EE1B1D3BB400F2D74F /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437E11B1D3BB400F2D74F /* ofxLabel.cpp */; };
+		B07437EF1B1D3BB400F2D74F /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437E31B1D3BB400F2D74F /* ofxPanel.cpp */; };
+		B07437F01B1D3BB400F2D74F /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437E51B1D3BB400F2D74F /* ofxSlider.cpp */; };
+		B07437F11B1D3BB400F2D74F /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437E71B1D3BB400F2D74F /* ofxSliderGroup.cpp */; };
+		B07437F21B1D3BB400F2D74F /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07437E91B1D3BB400F2D74F /* ofxToggle.cpp */; };
 		B7855559EDBA512073143693 /* CAAUParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8F2F49AF09EB5453E1E6536 /* CAAUParameter.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		C0788BDE2AA497B48C2B6F85 /* Interpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9F2933D385C0665970A1A19 /* Interpreter.cpp */; };
@@ -52,7 +60,6 @@
 		C4782ECC372420ACE0615B74 /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8881B3C8C0A1C45F042E7A /* OscPrintReceivedElements.cpp */; };
 		C99C59EB5A00132F22624A2D /* BodyRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7D88D45725D5A3C0781C9A8 /* BodyRenderer.cpp */; };
 		D5D5C8479C1C2A462955A2EC /* ofxAudioUnitMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49B5DC24CF34C7895A503416 /* ofxAudioUnitMidi.cpp */; };
-		DB155A1A19A59BAF33B8C189 /* ofxAbletonLiveParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DD2FE140F3D43E877CBBAAF /* ofxAbletonLiveParameter.cpp */; };
 		DF0E23207448D9B0A01099DE /* Hand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C140B7536113642BB2F29B2 /* Hand.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -118,7 +125,6 @@
 		09BD1A9AB41884A85349FF37 /* Skeleton.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Skeleton.cpp; path = "../../../addons/ofxKinectV2-OSC/src/Body/Skeleton.cpp"; sourceTree = SOURCE_ROOT; };
 		0AED834CE4DEC5260AF302A2 /* ofxOscParameterSync.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscParameterSync.cpp; path = ../../../addons/ofxOsc/src/ofxOscParameterSync.cpp; sourceTree = SOURCE_ROOT; };
 		10F1B6B6DFEE960F7FA4C661 /* ofxAudioUnitFftNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitFftNode.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitFftNode.cpp; sourceTree = SOURCE_ROOT; };
-		11E50F822796D779D4A929A1 /* ofxAbletonLiveClip.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAbletonLiveClip.h; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLiveClip.h; sourceTree = SOURCE_ROOT; };
 		13B169351929EEA804C94E5D /* CAAUParameter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = CAAUParameter.h; path = ../../../addons/ofxAudioUnit/src/CAPublicUtility/CAAUParameter.h; sourceTree = SOURCE_ROOT; };
 		18B335E1BC2A834648C8D7DF /* ofxAudioUnitNetSend.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAudioUnitNetSend.h; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitNetSend.h; sourceTree = SOURCE_ROOT; };
 		18F9C99EFC1FC4B7EAF4E79F /* ofxAudioUnitMixer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAudioUnitMixer.h; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitMixer.h; sourceTree = SOURCE_ROOT; };
@@ -141,8 +147,6 @@
 		39A11AF55C4BFFBB589C8D0D /* ofxAudioUnitSpeechSynth.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitSpeechSynth.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitSpeechSynth.cpp; sourceTree = SOURCE_ROOT; };
 		3B361208CD4107E479F04E7B /* NetworkingUtils.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = NetworkingUtils.cpp; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/posix/NetworkingUtils.cpp; sourceTree = SOURCE_ROOT; };
 		3BF3233A625C876FDABFAB0C /* ofxAudioUnitTap.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitTap.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitTap.cpp; sourceTree = SOURCE_ROOT; };
-		4023D5F5704820DA0283E7E2 /* ofxAbletonLiveParameter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAbletonLiveParameter.h; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLiveParameter.h; sourceTree = SOURCE_ROOT; };
-		40C841E81178E7BEFAAE9ABF /* ofxAbletonLiveClip.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAbletonLiveClip.cpp; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLiveClip.cpp; sourceTree = SOURCE_ROOT; };
 		444657A12E59D0ED86981498 /* TimerListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = TimerListener.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/TimerListener.h; sourceTree = SOURCE_ROOT; };
 		46F3FC2DF209C7393C75DE5A /* Skeleton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Skeleton.h; path = "../../../addons/ofxKinectV2-OSC/src/Body/Skeleton.h"; sourceTree = SOURCE_ROOT; };
 		46FEE1E8FF07805CE22EED29 /* Hand.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Hand.h; path = "../../../addons/ofxKinectV2-OSC/src/Body/Hand.h"; sourceTree = SOURCE_ROOT; };
@@ -163,25 +167,20 @@
 		6B65E6930994CC4B2D2B8B33 /* OscPacketListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPacketListener.h; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h; sourceTree = SOURCE_ROOT; };
 		72439F44FFDA8E291988657B /* ofxAudioUnitSampler.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitSampler.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitSampler.cpp; sourceTree = SOURCE_ROOT; };
 		7689F8A0F3D0B7635A8C3104 /* ofxOscArg.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscArg.h; path = ../../../addons/ofxOsc/src/ofxOscArg.h; sourceTree = SOURCE_ROOT; };
-		76D683B07B9E2460C787BDA9 /* ofxAbletonLiveTrack.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAbletonLiveTrack.h; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLiveTrack.h; sourceTree = SOURCE_ROOT; };
 		7C1900A801EF82F8E3B799B7 /* TPCircularBuffer.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 30; name = TPCircularBuffer.c; path = ../../../addons/ofxAudioUnit/src/TPCircularBuffer/TPCircularBuffer.c; sourceTree = SOURCE_ROOT; };
 		7FB5F74C69D4E17560BB615E /* ofxAudioUnitRecorder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitRecorder.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitRecorder.cpp; sourceTree = SOURCE_ROOT; };
 		81967292BFC87A0144BD32C6 /* ofxOscSender.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscSender.cpp; path = ../../../addons/ofxOsc/src/ofxOscSender.cpp; sourceTree = SOURCE_ROOT; };
 		81AC32CCCB56FAABA3E1BDE0 /* CoreMIDI.framework */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = /System/Library/Frameworks/CoreMIDI.framework; sourceTree = "<group>"; };
-		8640920AA64808966334CA35 /* ofxAbletonLiveDevice.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAbletonLiveDevice.h; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLiveDevice.h; sourceTree = SOURCE_ROOT; };
 		883971DDCC3F7881C2C65B50 /* ofxAudioUnitSpeechSynth.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAudioUnitSpeechSynth.h; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitSpeechSynth.h; sourceTree = SOURCE_ROOT; };
 		8B30E93FD3D3475EED522A0E /* ofxOscBundle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscBundle.h; path = ../../../addons/ofxOsc/src/ofxOscBundle.h; sourceTree = SOURCE_ROOT; };
 		8B873EEEF22B81D25EA0D45D /* ofxAudioUnitDSPNode.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAudioUnitDSPNode.h; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitDSPNode.h; sourceTree = SOURCE_ROOT; };
 		8C75AFC8774A62495DD53464 /* ofxOscReceiver.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscReceiver.h; path = ../../../addons/ofxOsc/src/ofxOscReceiver.h; sourceTree = SOURCE_ROOT; };
-		91CD45D371ED66231137B49D /* ofxAbletonLiveDevice.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAbletonLiveDevice.cpp; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLiveDevice.cpp; sourceTree = SOURCE_ROOT; };
 		921304ABBEE9BBAD13436898 /* ofxAudioUnitInput.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitInput.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitInput.cpp; sourceTree = SOURCE_ROOT; };
 		9ABA70779062F057766BC5DE /* ofxAudioUnitHardwareUtils.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitHardwareUtils.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitHardwareUtils.cpp; sourceTree = SOURCE_ROOT; };
 		9BF3AA0D4FAA89D0F8A0E545 /* OscReceivedElements.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscReceivedElements.cpp; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.cpp; sourceTree = SOURCE_ROOT; };
-		9DD2FE140F3D43E877CBBAAF /* ofxAbletonLiveParameter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAbletonLiveParameter.cpp; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLiveParameter.cpp; sourceTree = SOURCE_ROOT; };
 		9F7986DC4EB05E75FCE2C777 /* ofxOscSender.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscSender.h; path = ../../../addons/ofxOsc/src/ofxOscSender.h; sourceTree = SOURCE_ROOT; };
 		A1E489615DA9497A4B4D8CEA /* ofxKinectV2OSC.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxKinectV2OSC.cpp; path = "../../../addons/ofxKinectV2-OSC/src/ofxKinectV2OSC.cpp"; sourceTree = SOURCE_ROOT; };
 		A2AAA8CA403479E6FCDF920E /* OscHostEndianness.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscHostEndianness.h; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscHostEndianness.h; sourceTree = SOURCE_ROOT; };
-		A548FC9BBD1FE79423CA0BB5 /* ofxAbletonLive.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAbletonLive.h; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLive.h; sourceTree = SOURCE_ROOT; };
 		A9FB6499E5A09FB015A883EA /* ofxAudioUnitHardwareUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAudioUnitHardwareUtils.h; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitHardwareUtils.h; sourceTree = SOURCE_ROOT; };
 		AA63A01981FA6FCF6879A5C3 /* ofxAudioUnitDSPNode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitDSPNode.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitDSPNode.cpp; sourceTree = SOURCE_ROOT; };
 		ADD194746185E2DA11468377 /* IpEndpointName.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = IpEndpointName.cpp; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.cpp; sourceTree = SOURCE_ROOT; };
@@ -190,7 +189,31 @@
 		B07437B81B1D24B700F2D74F /* AudioUnitInstrument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioUnitInstrument.h; path = ../../../AudioUnits/src/AudioUnitInstrument.h; sourceTree = "<group>"; };
 		B07437BA1B1D254F00F2D74F /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		B07437BB1B1D254F00F2D74F /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
-		B0AE19B54624EA5DED3AF70A /* ofxAbletonLiveTrack.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAbletonLiveTrack.cpp; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLiveTrack.cpp; sourceTree = SOURCE_ROOT; };
+		B07437CA1B1D37AA00F2D74F /* ofxKinectFeatures.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxKinectFeatures.cpp; sourceTree = "<group>"; };
+		B07437CB1B1D37AA00F2D74F /* ofxKinectFeatures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxKinectFeatures.h; sourceTree = "<group>"; };
+		B07437CC1B1D37AA00F2D74F /* ofxKinectSkeleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxKinectSkeleton.cpp; sourceTree = "<group>"; };
+		B07437CD1B1D37AA00F2D74F /* ofxKinectSkeleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxKinectSkeleton.h; sourceTree = "<group>"; };
+		B07437CE1B1D37AA00F2D74F /* ofxMocapElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxMocapElement.cpp; sourceTree = "<group>"; };
+		B07437CF1B1D37AA00F2D74F /* ofxMocapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxMocapElement.h; sourceTree = "<group>"; };
+		B07437D51B1D3ABD00F2D74F /* ofxMapper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxMapper.cpp; sourceTree = "<group>"; };
+		B07437D61B1D3ABD00F2D74F /* ofxMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxMapper.h; sourceTree = "<group>"; };
+		B07437DA1B1D3BB400F2D74F /* ofxBaseGui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBaseGui.cpp; sourceTree = "<group>"; };
+		B07437DB1B1D3BB400F2D74F /* ofxBaseGui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxBaseGui.h; sourceTree = "<group>"; };
+		B07437DC1B1D3BB400F2D74F /* ofxButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxButton.cpp; sourceTree = "<group>"; };
+		B07437DD1B1D3BB400F2D74F /* ofxButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxButton.h; sourceTree = "<group>"; };
+		B07437DE1B1D3BB400F2D74F /* ofxGui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGui.h; sourceTree = "<group>"; };
+		B07437DF1B1D3BB400F2D74F /* ofxGuiGroup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGuiGroup.cpp; sourceTree = "<group>"; };
+		B07437E01B1D3BB400F2D74F /* ofxGuiGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxGuiGroup.h; sourceTree = "<group>"; };
+		B07437E11B1D3BB400F2D74F /* ofxLabel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxLabel.cpp; sourceTree = "<group>"; };
+		B07437E21B1D3BB400F2D74F /* ofxLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxLabel.h; sourceTree = "<group>"; };
+		B07437E31B1D3BB400F2D74F /* ofxPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPanel.cpp; sourceTree = "<group>"; };
+		B07437E41B1D3BB400F2D74F /* ofxPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxPanel.h; sourceTree = "<group>"; };
+		B07437E51B1D3BB400F2D74F /* ofxSlider.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSlider.cpp; sourceTree = "<group>"; };
+		B07437E61B1D3BB400F2D74F /* ofxSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSlider.h; sourceTree = "<group>"; };
+		B07437E71B1D3BB400F2D74F /* ofxSliderGroup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSliderGroup.cpp; sourceTree = "<group>"; };
+		B07437E81B1D3BB400F2D74F /* ofxSliderGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSliderGroup.h; sourceTree = "<group>"; };
+		B07437E91B1D3BB400F2D74F /* ofxToggle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxToggle.cpp; sourceTree = "<group>"; };
+		B07437EA1B1D3BB400F2D74F /* ofxToggle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxToggle.h; sourceTree = "<group>"; };
 		B31C608870ECEB2490A93736 /* ofxOscParameterSync.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscParameterSync.h; path = ../../../addons/ofxOsc/src/ofxOscParameterSync.h; sourceTree = SOURCE_ROOT; };
 		B4488A9492C5F3EB48122907 /* ofxAudioUnitBase.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAudioUnitBase.h; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitBase.h; sourceTree = SOURCE_ROOT; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
@@ -203,7 +226,6 @@
 		C8329EBFADF768E535429BCA /* ofxAudioUnitNetReceive.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitNetReceive.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitNetReceive.cpp; sourceTree = SOURCE_ROOT; };
 		C8B7749DFCB2413261E353B4 /* ofxAudioUnitMatrixMixer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAudioUnitMatrixMixer.cpp; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitMatrixMixer.cpp; sourceTree = SOURCE_ROOT; };
 		CCC45454AE1EDAA951FC5B84 /* ofxAudioUnitUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAudioUnitUtils.h; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitUtils.h; sourceTree = SOURCE_ROOT; };
-		CCF2FE3A419A16F9D3A806C7 /* ofxAbletonLive.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxAbletonLive.cpp; path = ../../../addons/ofxAbletonLive/src/ofxAbletonLive.cpp; sourceTree = SOURCE_ROOT; };
 		CDA167E15FB84F30B6CE5F74 /* ofxAudioUnitMidi.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAudioUnitMidi.h; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitMidi.h; sourceTree = SOURCE_ROOT; };
 		D354A3121711EC82B6136FB0 /* CADebugMacros.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = CADebugMacros.cpp; path = ../../../addons/ofxAudioUnit/src/CAPublicUtility/CADebugMacros.cpp; sourceTree = SOURCE_ROOT; };
 		D51A3B424E06281899DE1B69 /* ofxAudioUnitTap.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAudioUnitTap.h; path = ../../../addons/ofxAudioUnit/src/ofxAudioUnitTap.h; sourceTree = SOURCE_ROOT; };
@@ -290,14 +312,6 @@
 				2295801F930C94A28D50E7E2 /* CAXException.h */,
 			);
 			name = CAPublicUtility;
-			sourceTree = "<group>";
-		};
-		2BD862020B7783ABB823FBFF /* ofxAbletonLive */ = {
-			isa = PBXGroup;
-			children = (
-				E87BD67B460D2097E01AC90C /* src */,
-			);
-			name = ofxAbletonLive;
 			sourceTree = "<group>";
 		};
 		30CB364908817057B430D528 /* osc */ = {
@@ -422,6 +436,7 @@
 		8A0744521B4B2563AAAD4E6B /* src */ = {
 			isa = PBXGroup;
 			children = (
+				B07437C91B1D37AA00F2D74F /* FeatureTracker */,
 				F5618C07745D192F871885AA /* Body */,
 				6626B42A0AC3BD4A61F267CC /* DataTransform */,
 				593B343A9FADF0368B7C0E8D /* Draw */,
@@ -448,6 +463,71 @@
 			name = AudioUnits;
 			sourceTree = "<group>";
 		};
+		B07437C91B1D37AA00F2D74F /* FeatureTracker */ = {
+			isa = PBXGroup;
+			children = (
+				B07437CA1B1D37AA00F2D74F /* ofxKinectFeatures.cpp */,
+				B07437CB1B1D37AA00F2D74F /* ofxKinectFeatures.h */,
+				B07437CC1B1D37AA00F2D74F /* ofxKinectSkeleton.cpp */,
+				B07437CD1B1D37AA00F2D74F /* ofxKinectSkeleton.h */,
+				B07437CE1B1D37AA00F2D74F /* ofxMocapElement.cpp */,
+				B07437CF1B1D37AA00F2D74F /* ofxMocapElement.h */,
+			);
+			name = FeatureTracker;
+			path = "../../../addons/ofxKinectV2-OSC/src/FeatureTracker";
+			sourceTree = "<group>";
+		};
+		B07437D31B1D3ABD00F2D74F /* ofxMapper */ = {
+			isa = PBXGroup;
+			children = (
+				B07437D41B1D3ABD00F2D74F /* src */,
+			);
+			name = ofxMapper;
+			sourceTree = "<group>";
+		};
+		B07437D41B1D3ABD00F2D74F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				B07437D51B1D3ABD00F2D74F /* ofxMapper.cpp */,
+				B07437D61B1D3ABD00F2D74F /* ofxMapper.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxMapper/src;
+			sourceTree = "<group>";
+		};
+		B07437D81B1D3BB400F2D74F /* ofxGui */ = {
+			isa = PBXGroup;
+			children = (
+				B07437D91B1D3BB400F2D74F /* src */,
+			);
+			name = ofxGui;
+			sourceTree = "<group>";
+		};
+		B07437D91B1D3BB400F2D74F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				B07437DA1B1D3BB400F2D74F /* ofxBaseGui.cpp */,
+				B07437DB1B1D3BB400F2D74F /* ofxBaseGui.h */,
+				B07437DC1B1D3BB400F2D74F /* ofxButton.cpp */,
+				B07437DD1B1D3BB400F2D74F /* ofxButton.h */,
+				B07437DE1B1D3BB400F2D74F /* ofxGui.h */,
+				B07437DF1B1D3BB400F2D74F /* ofxGuiGroup.cpp */,
+				B07437E01B1D3BB400F2D74F /* ofxGuiGroup.h */,
+				B07437E11B1D3BB400F2D74F /* ofxLabel.cpp */,
+				B07437E21B1D3BB400F2D74F /* ofxLabel.h */,
+				B07437E31B1D3BB400F2D74F /* ofxPanel.cpp */,
+				B07437E41B1D3BB400F2D74F /* ofxPanel.h */,
+				B07437E51B1D3BB400F2D74F /* ofxSlider.cpp */,
+				B07437E61B1D3BB400F2D74F /* ofxSlider.h */,
+				B07437E71B1D3BB400F2D74F /* ofxSliderGroup.cpp */,
+				B07437E81B1D3BB400F2D74F /* ofxSliderGroup.h */,
+				B07437E91B1D3BB400F2D74F /* ofxToggle.cpp */,
+				B07437EA1B1D3BB400F2D74F /* ofxToggle.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxGui/src;
+			sourceTree = "<group>";
+		};
 		BA6760AC87647DD61A92BD41 /* win32 */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,9 +541,10 @@
 			isa = PBXGroup;
 			children = (
 				E6053AB7FEC63D5F83825B88 /* ofxOsc */,
-				2BD862020B7783ABB823FBFF /* ofxAbletonLive */,
 				9360D34D90EA59A50AF2804F /* ofxAudioUnit */,
 				FF5990F8E3BEC12AC1E5D465 /* ofxKinectV2-OSC */,
+				B07437D31B1D3ABD00F2D74F /* ofxMapper */,
+				B07437D81B1D3BB400F2D74F /* ofxGui */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -587,23 +668,6 @@
 				38871A5825686AE018EC2BF0 /* libs */,
 			);
 			name = ofxOsc;
-			sourceTree = "<group>";
-		};
-		E87BD67B460D2097E01AC90C /* src */ = {
-			isa = PBXGroup;
-			children = (
-				CCF2FE3A419A16F9D3A806C7 /* ofxAbletonLive.cpp */,
-				A548FC9BBD1FE79423CA0BB5 /* ofxAbletonLive.h */,
-				40C841E81178E7BEFAAE9ABF /* ofxAbletonLiveClip.cpp */,
-				11E50F822796D779D4A929A1 /* ofxAbletonLiveClip.h */,
-				91CD45D371ED66231137B49D /* ofxAbletonLiveDevice.cpp */,
-				8640920AA64808966334CA35 /* ofxAbletonLiveDevice.h */,
-				9DD2FE140F3D43E877CBBAAF /* ofxAbletonLiveParameter.cpp */,
-				4023D5F5704820DA0283E7E2 /* ofxAbletonLiveParameter.h */,
-				B0AE19B54624EA5DED3AF70A /* ofxAbletonLiveTrack.cpp */,
-				76D683B07B9E2460C787BDA9 /* ofxAbletonLiveTrack.h */,
-			);
-			name = src;
 			sourceTree = "<group>";
 		};
 		F5618C07745D192F871885AA /* Body */ = {
@@ -731,9 +795,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B07437D01B1D381F00F2D74F /* ofxKinectFeatures.cpp in Sources */,
+				B07437D11B1D381F00F2D74F /* ofxKinectSkeleton.cpp in Sources */,
+				B07437D21B1D381F00F2D74F /* ofxMocapElement.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */,
+				B07437EC1B1D3BB400F2D74F /* ofxButton.cpp in Sources */,
 				5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */,
 				4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */,
 				640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */,
@@ -741,27 +809,27 @@
 				ADE367465D2A8EBAD4C7A8D9 /* IpEndpointName.cpp in Sources */,
 				67FE4C7B15C2F0478C8126C2 /* NetworkingUtils.cpp in Sources */,
 				510CAFE035E576A4E1502D52 /* UdpSocket.cpp in Sources */,
+				B07437F11B1D3BB400F2D74F /* ofxSliderGroup.cpp in Sources */,
 				A29D8C96AE042ECEAA1BD4F3 /* NetworkingUtilsWin.cpp in Sources */,
 				28090DEB5109115003E8F1C5 /* UdpSocketWin.cpp in Sources */,
 				62545D179C94265CA1389D4A /* OscOutboundPacketStream.cpp in Sources */,
 				C4782ECC372420ACE0615B74 /* OscPrintReceivedElements.cpp in Sources */,
+				B07437EF1B1D3BB400F2D74F /* ofxPanel.cpp in Sources */,
 				0546D1A38E13BD319CC9755B /* OscReceivedElements.cpp in Sources */,
 				879A251454401BC0B6E4F238 /* OscTypes.cpp in Sources */,
-				38B71BBB0749BF5FBB132556 /* ofxAbletonLive.cpp in Sources */,
-				9BBDD8855741076B5783D568 /* ofxAbletonLiveClip.cpp in Sources */,
-				AFFB17AA4F2B45440FD9E280 /* ofxAbletonLiveDevice.cpp in Sources */,
-				DB155A1A19A59BAF33B8C189 /* ofxAbletonLiveParameter.cpp in Sources */,
-				547B74FF3416E79DAD062B3E /* ofxAbletonLiveTrack.cpp in Sources */,
 				6F4C9BC6393F980E0D016D52 /* AUParamInfo.cpp in Sources */,
 				B7855559EDBA512073143693 /* CAAUParameter.cpp in Sources */,
 				0C4F519BCE65BA5D7D6B6B68 /* CADebugMacros.cpp in Sources */,
 				87B337624802E70C0BDB11F3 /* ofxAudioUnit.cpp in Sources */,
 				2D5FF7F2ACFB45212BC7739D /* ofxAudioUnitCocoaUtilties.mm in Sources */,
+				B07437EB1B1D3BB400F2D74F /* ofxBaseGui.cpp in Sources */,
 				2B33B0211E062CB61C7FAEF9 /* ofxAudioUnitDSPNode.cpp in Sources */,
+				B07437F21B1D3BB400F2D74F /* ofxToggle.cpp in Sources */,
 				0E826EC50F9F913C3159C2F7 /* ofxAudioUnitFftNode.cpp in Sources */,
 				F37393707BBD7E49A1055FFB /* ofxAudioUnitFilePlayer.cpp in Sources */,
 				F09EC3F89CF64E415784BB32 /* ofxAudioUnitHardwareUtils.cpp in Sources */,
 				A1D93B3B282E51FD3DED5313 /* ofxAudioUnitInput.cpp in Sources */,
+				B07437ED1B1D3BB400F2D74F /* ofxGuiGroup.cpp in Sources */,
 				0906C2D4D2BBEC054B2D5BA5 /* ofxAudioUnitMatrixMixer.cpp in Sources */,
 				D5D5C8479C1C2A462955A2EC /* ofxAudioUnitMidi.cpp in Sources */,
 				71239FABD9DD8DADE3E2EFF9 /* ofxAudioUnitMixer.cpp in Sources */,
@@ -769,6 +837,7 @@
 				250A710D8814BF6D345B0877 /* ofxAudioUnitNetSend.cpp in Sources */,
 				F46D757E6D52DFFE3A9C169B /* ofxAudioUnitOutput.cpp in Sources */,
 				AA26BBDA5E32E5BB20C82ADD /* ofxAudioUnitRecorder.cpp in Sources */,
+				B07437D71B1D3ABD00F2D74F /* ofxMapper.cpp in Sources */,
 				0928F46C1FFAFB7170C2A661 /* ofxAudioUnitSampler.cpp in Sources */,
 				AB6830767302568AB46DC937 /* ofxAudioUnitSpeechSynth.cpp in Sources */,
 				0B1A7EDFBC477E5A2E37CCDF /* ofxAudioUnitTap.cpp in Sources */,
@@ -781,7 +850,9 @@
 				9780A09AECE86A91413F1249 /* Mapper.cpp in Sources */,
 				6847664D0060F42AEBB4E101 /* Parser.cpp in Sources */,
 				C99C59EB5A00132F22624A2D /* BodyRenderer.cpp in Sources */,
+				B07437EE1B1D3BB400F2D74F /* ofxLabel.cpp in Sources */,
 				F8C594EDF5A25FA2F042074C /* ofxKinectV2OSC.cpp in Sources */,
+				B07437F01B1D3BB400F2D74F /* ofxSlider.cpp in Sources */,
 				B07437B91B1D24B700F2D74F /* AudioUnitInstrument.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -915,6 +986,29 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxOsc/libs,
+					../../../addons/ofxOsc/libs/oscpack,
+					../../../addons/ofxOsc/libs/oscpack/src,
+					../../../addons/ofxOsc/libs/oscpack/src/ip,
+					../../../addons/ofxOsc/libs/oscpack/src/ip/posix,
+					../../../addons/ofxOsc/libs/oscpack/src/ip/win32,
+					../../../addons/ofxOsc/libs/oscpack/src/osc,
+					../../../addons/ofxOsc/src,
+					../../../addons/ofxAbletonLive/libs,
+					../../../addons/ofxAbletonLive/src,
+					../../../addons/ofxAudioUnit/libs,
+					../../../addons/ofxAudioUnit/src,
+					../../../addons/ofxAudioUnit/src/CAPublicUtility,
+					../../../addons/ofxAudioUnit/src/TPCircularBuffer,
+					"../../../addons/ofxKinectV2-OSC/libs",
+					"../../../addons/ofxKinectV2-OSC/src",
+					"../../../addons/ofxKinectV2-OSC/src/Body",
+					"../../../addons/ofxKinectV2-OSC/src/FeatureTracker",
+					"../../../addons/ofxKinectV2-OSC/src/DataTransform",
+					"../../../addons/ofxKinectV2-OSC/src/Draw",
+				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -984,6 +1078,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1000,6 +1095,29 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxOsc/libs,
+					../../../addons/ofxOsc/libs/oscpack,
+					../../../addons/ofxOsc/libs/oscpack/src,
+					../../../addons/ofxOsc/libs/oscpack/src/ip,
+					../../../addons/ofxOsc/libs/oscpack/src/ip/posix,
+					../../../addons/ofxOsc/libs/oscpack/src/ip/win32,
+					../../../addons/ofxOsc/libs/oscpack/src/osc,
+					../../../addons/ofxOsc/src,
+					../../../addons/ofxAbletonLive/libs,
+					../../../addons/ofxAbletonLive/src,
+					../../../addons/ofxAudioUnit/libs,
+					../../../addons/ofxAudioUnit/src,
+					../../../addons/ofxAudioUnit/src/CAPublicUtility,
+					../../../addons/ofxAudioUnit/src/TPCircularBuffer,
+					"../../../addons/ofxKinectV2-OSC/libs",
+					"../../../addons/ofxKinectV2-OSC/src",
+					"../../../addons/ofxKinectV2-OSC/src/Body",
+					"../../../addons/ofxKinectV2-OSC/src/FeatureTracker",
+					"../../../addons/ofxKinectV2-OSC/src/DataTransform",
+					"../../../addons/ofxKinectV2-OSC/src/Draw",
+				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -1069,6 +1187,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
