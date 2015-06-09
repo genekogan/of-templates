@@ -3,9 +3,12 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    kinect.setup(12345);
+    renderer.setup(kinect.getSkeletons());
+    
     drawView = 1;
     
-    synth.setup('aumu', 'Aalt', 'MLbs');
+    synth.setup('aumu', 'Kaiv', 'MLbs');
     synth.showUI();
     
     synth.getSynth().connectTo(mixer, 0);
@@ -18,7 +21,7 @@ void ofApp::setup(){
     // map sliders to reverb and cutoff parameters
     manta.mapSliderToParameter(0, synth.getParameter("output_reverb"));
     manta.mapSliderToParameter(1, synth.getParameter("filter_cutoff"));
-
+    
     // map all pads to midi notes
     manta.mapAllPadsToMidiNotes();
     
@@ -29,7 +32,18 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
+    kinect.update();
+
+    if (kinect.hasSkeletons()) {
+        float rv = ofClamp(ofMap(kinect.getNearestSkeleton()->getHandRight().y(),
+                                 -20, 300, 0, 1), 0, 1);
+        synth.getParameter("output_reverb").set(rv);
+        
+        
+        float co = ofClamp(ofMap(kinect.getNearestSkeleton()->getHandLeft().y(),
+                                 -20, 300, 0, 1), 0, 20000);
+        synth.getParameter("filter_cutoff").set(co);
+    }
 }
 
 //--------------------------------------------------------------
@@ -41,6 +55,10 @@ void ofApp::draw(){
     else if (drawView == 2) {
         ofSetColor(0);
         synth.draw(5, 20);
+    }
+    else if (drawView == 3) {
+        kinect.drawDebug();
+        renderer.draw();
     }
 }
 
@@ -55,12 +73,9 @@ void ofApp::keyPressed(int key){
     else if (key=='2') {
         drawView = 2;
     }
-    
-    else if (key=='a')  manta.setKey(-12);
-    else if (key=='s')  manta.setKey(-24);
-    else if (key=='d')  manta.setKey(-36);
-    else if (key=='f')  manta.setKey(-48);
-    else if (key=='g')  manta.setKey(-60);
+    else if (key=='3') {
+        drawView = 3;
+    }
 }
 
 //--------------------------------------------------------------

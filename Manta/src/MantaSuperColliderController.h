@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxAudioUnit.h"
 #include "MantaStats.h"
 
 
@@ -13,11 +12,11 @@ struct MantaParameterMapping
 };
 
 
-class MantaAudioUnitController : public MantaStats
+class MantaSuperColliderController : public MantaStats
 {
 public:
-    MantaAudioUnitController();
-    void setAudioUnit(ofxAudioUnitSampler *audioUnit);
+    MantaSuperColliderController();
+//    void setAudioUnit(ofxAudioUnitSampler *audioUnit);
 
     void mapPadToParameter(int row, int col, ofParameter<float> & parameter);
     void mapSliderToParameter(int index, ofParameter<float> & parameter);
@@ -45,7 +44,7 @@ private:
     void getChord(int chord[], int root, int octave=0);
     int getNoteAtScaleDegree(int root, int degree, int mode, int octave);
     
-    ofxAudioUnitSampler *audioUnit;
+//    ofxAudioUnitSampler *audioUnit;
     
     map<int, MantaParameterMapping*> padMap;
     map<int, MantaParameterMapping*> sliderMap;

@@ -26,4 +26,22 @@ class ofApp : public ofBaseApp{
     ofParameter<float> padRef;
     ofParameter<float> sliderRef;
     ofParameter<float> buttonRef;
+    
+    ofParameter<float> numPads;
+    ofParameter<float> padSum, padAverage;
+    ofParameter<float> centroidX, centroidY;
+    ofParameter<float> weightedCentroidX, weightedCentroidY;
+    ofParameter<float> averageInterFingerDistance;
+    ofParameter<float> perimeter, area;
+    ofParameter<float> padWidth, padHeight, whRatio;
+    
+    // velocity statistics
+    ofParameter<float> numPadsVelocity;
+    ofParameter<float> padSumVelocity, padAverageVelocity;
+    ofParameter<float> centroidVelocityX, centroidVelocityY;
+    ofParameter<float> weightedCentroidVelocityX, weightedCentroidVelocityY;
+    ofParameter<float> averageInterFingerDistanceVelocity;
+    ofParameter<float> perimeterVelocity, areaVelocity;
+    ofParameter<float> widthVelocity, heightVelocity, whRatioVelocity;
+
 };

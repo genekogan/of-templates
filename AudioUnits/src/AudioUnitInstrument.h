@@ -4,16 +4,17 @@
 #include "ofxAudioUnit.h"
 
 
-class AudioUnitInstrumentParameter {
+class AudioUnitInstrumentParameter
+{
 public:
-    AudioUnitInstrumentParameter(ofxAudioUnitSampler *synth, AudioUnitParameterInfo parameter, int idx);
+    AudioUnitInstrumentParameter(ofxAudioUnitSampler *synth, AudioUnitParameterInfo parameter, int index);
     ofParameter<float> & getParameter() {return value;}
     void setValue(float v);
     
 private:
     void parameterChanged(float & v);
     
-    int idx;
+    int index;
     ofParameter<float> value;
     ofxAudioUnitSampler *synth;
 };

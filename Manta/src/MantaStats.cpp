@@ -4,8 +4,38 @@
 MantaStats::MantaStats() : ofxManta()
 {
     selection = 0;
-    velocityLerpRate.set("velocity lerp", 0.1, 0.0001, 1.0);
     drawHelperLabel = true;
+    
+    velocityLerpRate.set("velocity lerp", 0.1, 0.0001, 1.0);
+    EPSILON = 0.00001;
+    
+    numPads.set("num pads", 0, 0, 8 * 6);
+    padSum.set("pad sum", 0, 0, MANTA_MAX_PAD_VALUE * 8 * 6);
+    padAverage.set("pad avg", 0, 0, MANTA_MAX_PAD_VALUE);
+    centroidX.set("pcentroid x", 0, 0, 1);
+    centroidY.set("centroid y", 0, 0, 1);
+    weightedCentroidX.set("weighted centroid x", 0, 0, 1);
+    weightedCentroidY.set("weighted centroid y", 0, 0, 1);
+    averageInterFingerDistance.set("avg inter-finger distance", 0, 0, 1);
+    perimeter.set("perimeter", 0, 0, 1);
+    area.set("area", 0, 0, 1);
+    padWidth.set("width", 0, 0, 1);
+    padHeight.set("height", 0, 0, 1);
+    whRatio.set("width/height", 0, 0, 10);
+    
+    numPadsVelocity.set("v num pads", 0, -8 * 6, 8 * 6);
+    padSumVelocity.set("v pad sum", 0, -MANTA_MAX_PAD_VALUE * 8 * 6, MANTA_MAX_PAD_VALUE * 8 * 6);
+    padAverageVelocity.set("v pad avg", 0, -MANTA_MAX_PAD_VALUE, MANTA_MAX_PAD_VALUE);
+    centroidVelocityX.set("v pcentroid x", 0, -1, 1);
+    centroidVelocityY.set("v centroid y", 0, -1, 1);
+    weightedCentroidVelocityX.set("v weighted centroid x", 0, -1, 1);
+    weightedCentroidVelocityY.set("v weighted centroid y", 0, -1, 1);
+    averageInterFingerDistanceVelocity.set("v avg inter-finger distance", 0, -1, 1);
+    perimeterVelocity.set("v perimeter", 0, -1, 1);
+    areaVelocity.set("v area", 0, -1, 1);
+    widthVelocity.set("v width", 0, -1, 1);
+    heightVelocity.set("v height", 0, -1, 1);
+    whRatioVelocity.set("v width/height", 0, -1, 1);
 }
 
 bool MantaStats::setup()
@@ -45,7 +75,7 @@ void MantaStats::setMouseActive(bool mouseActive)
 void MantaStats::update()
 {
     ofxManta::update();
-
+    
     if (!IsConnected()) {
         return;
     }
@@ -112,6 +142,7 @@ void MantaStats::update()
     _padAverage = fingers.size() > 0 ? _padSum / _numPads : 0.0;
     
     float _perimeter = 0.0;
+    float _area = 0.0;
     float _averageInterFingerDistance = 0.0;
     
     // stats on finger groups
@@ -121,9 +152,9 @@ void MantaStats::update()
         _height = 0;
         _whRatio = 0;
         _perimeter = 0;
+        _area = 0;
         _averageInterFingerDistance = 0;
         fingersHull.resize(0);
-        fingersHullNormalized.resize(0);
     }
     else if (fingers.size() == 2)
     {
@@ -133,34 +164,29 @@ void MantaStats::update()
         
         _perimeter = (pow(fingers[0].x - fingers[1].x, 2)+
                       pow(fingers[0].y - fingers[1].y, 2));
+        _area = 0;
         
         _averageInterFingerDistance = _perimeter;
         fingersHull.resize(0);
-        fingersHullNormalized.resize(0);
     }
     else
     {
         _width = fingersMax.x - fingersMin.x;
         _height = fingersMax.y - fingersMin.y;
-        _whRatio = _width / _height;
+        _whRatio = _width / (1.0 + _height);
         
         fingersHull = convexHull.getConvexHull(fingers);
-        fingersHullNormalized.resize(fingersHull.size());
-        for (int i=0; i<fingersHull.size(); i++)
-        {
-            fingersHullNormalized[i].x = (fingersHull[i].x - fingersMin.x) / (fingersMax.x - fingersMin.x);
-            fingersHullNormalized[i].y = (fingersHull[i].y - fingersMin.y) / (fingersMax.y - fingersMin.y);
-        }
-        for (int i=0; i<fingersHull.size()-1; i++)
-        {
+        for (int i=0; i<fingersHull.size()-1; i++) {
             _perimeter += (pow(fingersHull[i].x - fingersHull[(i+1)].x, 2)+
                            pow(fingersHull[i].y - fingersHull[(i+1)].y, 2));
         }
+        _area = convexHull.getArea(fingersHull);
         _averageInterFingerDistance = _perimeter / (float) (fingersHull.size()-1);
     }
     
     numPadsVelocity = ofLerp(numPadsVelocity, _numPads-numPads, velocityLerpRate);
     perimeterVelocity = ofLerp(perimeterVelocity, _perimeter-perimeter, velocityLerpRate);
+    areaVelocity = ofLerp(areaVelocity, _area-area, velocityLerpRate);
     averageInterFingerDistanceVelocity = ofLerp(averageInterFingerDistanceVelocity, _averageInterFingerDistance-averageInterFingerDistance, velocityLerpRate);
     
     padSumVelocity = ofLerp(padSumVelocity, _padSum-padSum, velocityLerpRate);
@@ -170,10 +196,25 @@ void MantaStats::update()
     heightVelocity = ofLerp(heightVelocity, _height-padHeight, velocityLerpRate);
     whRatioVelocity = ofLerp(whRatioVelocity, _whRatio-whRatio, velocityLerpRate);
     
+    if (abs(numPadsVelocity) < EPSILON)    numPadsVelocity = 0;
+    if (abs(padSumVelocity) < EPSILON)    padSumVelocity = 0;
+    if (abs(padAverageVelocity) < EPSILON)    padAverageVelocity = 0;
+    if (abs(centroidVelocityX) < EPSILON)    centroidVelocityX = 0;
+    if (abs(centroidVelocityY) < EPSILON)    centroidVelocityY = 0;
+    if (abs(weightedCentroidVelocityX) < EPSILON)    weightedCentroidVelocityX = 0;
+    if (abs(weightedCentroidVelocityY) < EPSILON)    weightedCentroidVelocityY = 0;
+    if (abs(averageInterFingerDistanceVelocity) < EPSILON)    averageInterFingerDistanceVelocity = 0;
+    if (abs(perimeterVelocity) < EPSILON)    perimeterVelocity = 0;
+    if (abs(areaVelocity) < EPSILON)    areaVelocity = 0;
+    if (abs(widthVelocity) < EPSILON)    widthVelocity = 0;
+    if (abs(heightVelocity) < EPSILON)    heightVelocity = 0;
+    if (abs(whRatioVelocity) < EPSILON)    whRatioVelocity = 0;
+    
     padWidth = _width;
     padHeight = _height;
     whRatio = _whRatio;
     perimeter = _perimeter;
+    area = _area;
     averageInterFingerDistance = _averageInterFingerDistance;
     padSum = _padSum;
     padAverage = _padAverage;

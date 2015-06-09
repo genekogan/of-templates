@@ -21,3 +21,11 @@ Overview of Manta's features.
 Control an audio unit from the Manta
 
 
+#### t03_ableton
+
+**Requires**: [ofxManta](https://www.github.com/genekogan/ofxManta), [ofxConvexHull](https://github.com/genekogan/ofxConvexHull), [ofxAbletonLive](https://github.com/genekogan/ofxAbletonLive), [ofxMidi](https://github.com/danomatika/ofxMidi)
+
+Control Ableton Live from the Manta
+Note: you must [set up a Virtual MIDI bus to Ableton](https://www.ableton.com/en/help/article/using-virtual-MIDI-buses-live/) to be able to send note on/note off midi events.
+
+

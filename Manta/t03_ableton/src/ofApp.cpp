@@ -5,21 +5,9 @@
 void ofApp::setup(){
     drawView = 1;
     
-    synth.setup('aumu', 'Aalt', 'MLbs');
-    synth.showUI();
-    
-    synth.getSynth().connectTo(mixer, 0);
-    mixer.connectTo(output);
-    output.start();
-    
+    live.setup(this, &ofApp::abletonLoaded);
     manta.setup();
-    manta.setAudioUnit(&synth.getSynth());
-    
-    // map sliders to reverb and cutoff parameters
-    manta.mapSliderToParameter(0, synth.getParameter("output_reverb"));
-    manta.mapSliderToParameter(1, synth.getParameter("filter_cutoff"));
 
-    // map all pads to midi notes
     manta.mapAllPadsToMidiNotes();
     
     // changing key/mode
@@ -28,8 +16,13 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
+void ofApp::abletonLoaded() {
+    manta.mapSliderToParameter(0, *live.getTrack(1)->getDevice("Vocoder")->getParameter("Dry/Wet")->getParameter());
+}
+
+//--------------------------------------------------------------
 void ofApp::update(){
-    
+    live.update();
 }
 
 //--------------------------------------------------------------
@@ -39,8 +32,7 @@ void ofApp::draw(){
         manta.drawStats(450, 50, 400);
     }
     else if (drawView == 2) {
-        ofSetColor(0);
-        synth.draw(5, 20);
+        live.drawDebugView();
     }
 }
 
@@ -55,12 +47,6 @@ void ofApp::keyPressed(int key){
     else if (key=='2') {
         drawView = 2;
     }
-    
-    else if (key=='a')  manta.setKey(-12);
-    else if (key=='s')  manta.setKey(-24);
-    else if (key=='d')  manta.setKey(-36);
-    else if (key=='f')  manta.setKey(-48);
-    else if (key=='g')  manta.setKey(-60);
 }
 
 //--------------------------------------------------------------

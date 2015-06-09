@@ -4,8 +4,10 @@
 #include "ofxAudioUnit.h"
 #include "AudioUnitInstrument.h"
 #include "MantaAudioUnitController.h"
+#include "ofxKinectV2OSC.h"
 
 class ofApp : public ofBaseApp{
+    
 public:
     void setup();
     void update();
@@ -21,10 +23,14 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
+    ofxKinectV2OSC kinect;
+    BodyRenderer renderer;
+    
+
     AudioUnitInstrument synth;
     ofxAudioUnitMixer mixer;
     ofxAudioUnitOutput output;
-
+    
     MantaAudioUnitController manta;
     
     int drawView;

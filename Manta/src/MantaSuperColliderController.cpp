@@ -1,4 +1,4 @@
-#include "MantaAudioUnitController.h"
+#include "MantaSuperColliderController.h"
 
 MantaParameterMapping::MantaParameterMapping(ofParameter<float> & parameter_)
 {
@@ -7,38 +7,38 @@ MantaParameterMapping::MantaParameterMapping(ofParameter<float> & parameter_)
     this->max = parameter.getMax();
 }
 
-void MantaAudioUnitController::mapPadToParameter(int row, int column, ofParameter<float> & parameter)
+void MantaSuperColliderController::mapPadToParameter(int row, int column, ofParameter<float> & parameter)
 {
     padMap[row * 8 + column] = new MantaParameterMapping(parameter);
     setPadLedState(row, column, Manta::Red);
 }
 
-void MantaAudioUnitController::mapSliderToParameter(int index, ofParameter<float> & parameter)
+void MantaSuperColliderController::mapSliderToParameter(int index, ofParameter<float> & parameter)
 {
     sliderMap[index] = new MantaParameterMapping(parameter);
 }
 
-void MantaAudioUnitController::mapButtonToParameter(int index, ofParameter<float> & parameter)
+void MantaSuperColliderController::mapButtonToParameter(int index, ofParameter<float> & parameter)
 {
     buttonMap[index] = new MantaParameterMapping(parameter);
 }
 
-MantaAudioUnitController::MantaAudioUnitController() : MantaStats()
+MantaSuperColliderController::MantaSuperColliderController() : MantaStats()
 {
     setupTheory();
-    ofAddListener(padEvent, this, &MantaAudioUnitController::PadEvent);
-    ofAddListener(sliderEvent, this, &MantaAudioUnitController::SliderEvent);
-    ofAddListener(buttonEvent, this, &MantaAudioUnitController::ButtonEvent);
-    ofAddListener(padVelocityEvent, this, &MantaAudioUnitController::PadVelocityEvent);
-    ofAddListener(buttonVelocityEvent, this, &MantaAudioUnitController::ButtonVelocityEvent);
+    ofAddListener(padEvent, this, &MantaSuperColliderController::PadEvent);
+    ofAddListener(sliderEvent, this, &MantaSuperColliderController::SliderEvent);
+    ofAddListener(buttonEvent, this, &MantaSuperColliderController::ButtonEvent);
+    ofAddListener(padVelocityEvent, this, &MantaSuperColliderController::PadVelocityEvent);
+    ofAddListener(buttonVelocityEvent, this, &MantaSuperColliderController::ButtonVelocityEvent);
 }
+//
+//void MantaSuperColliderController::setAudioUnit(ofxAudioUnitSampler *audioUnit)
+//{
+//    this->audioUnit = audioUnit;
+//}
 
-void MantaAudioUnitController::setAudioUnit(ofxAudioUnitSampler *audioUnit)
-{
-    this->audioUnit = audioUnit;
-}
-
-void MantaAudioUnitController::mapSelectionToMidiNotes()
+void MantaSuperColliderController::mapSelectionToMidiNotes()
 {
     clearMidiMapping();
     vector<int> selection = getPadSelection();
@@ -47,7 +47,7 @@ void MantaAudioUnitController::mapSelectionToMidiNotes()
     }
 }
 
-void MantaAudioUnitController::mapAllPadsToMidiNotes()
+void MantaSuperColliderController::mapAllPadsToMidiNotes()
 {
     clearMidiMapping();
     for (int r = 0; r < 6; r++) {
@@ -58,13 +58,13 @@ void MantaAudioUnitController::mapAllPadsToMidiNotes()
     mapSelectionToMidiNotes();
 }
 
-void MantaAudioUnitController::clearMidiMapping()
+void MantaSuperColliderController::clearMidiMapping()
 {
     midiMap.clear();
     markAllPads(Manta::Off);
 }
 
-void MantaAudioUnitController::resetMidiMapping()
+void MantaSuperColliderController::resetMidiMapping()
 {
     map<int, int>::iterator it = midiMap.begin();
     for (; it != midiMap.end(); ++it) {
@@ -72,7 +72,7 @@ void MantaAudioUnitController::resetMidiMapping()
     }
 }
 
-void MantaAudioUnitController::setMidiMapping(int idx)
+void MantaSuperColliderController::setMidiMapping(int idx)
 {
     int row = floor(idx / 8);
     int col = idx % 8;
@@ -83,59 +83,59 @@ void MantaAudioUnitController::setMidiMapping(int idx)
     setPadLedState(row, col, Manta::Red);
 }
 
-void MantaAudioUnitController::setKey(int key)
+void MantaSuperColliderController::setKey(int key)
 {
     this->key = key;
     resetMidiMapping();
 }
 
-void MantaAudioUnitController::setMode(int mode)
+void MantaSuperColliderController::setMode(int mode)
 {
     this->mode = mode;
     resetMidiMapping();
 }
 
-void MantaAudioUnitController::PadEvent(ofxMantaEvent & evt)
+void MantaSuperColliderController::PadEvent(ofxMantaEvent & evt)
 {
     if (padMap.count(evt.id) != 0) {
         padMap[evt.id]->parameter.set(ofMap(evt.value, 0, MANTA_MAX_PAD_VALUE, padMap[evt.id]->min, padMap[evt.id]->max));
     }
 }
 
-void MantaAudioUnitController::SliderEvent(ofxMantaEvent & evt)
+void MantaSuperColliderController::SliderEvent(ofxMantaEvent & evt)
 {
     if (sliderMap.count(evt.id) != 0 && evt.value > -1) {
         sliderMap[evt.id]->parameter.set(ofMap(evt.value, 0, MANTA_MAX_SLIDER_VALUE, sliderMap[evt.id]->min, sliderMap[evt.id]->max));
     }
 }
 
-void MantaAudioUnitController::ButtonEvent(ofxMantaEvent & evt)
+void MantaSuperColliderController::ButtonEvent(ofxMantaEvent & evt)
 {
     if (buttonMap.count(evt.id) != 0) {
         buttonMap[evt.id]->parameter.set(ofMap(evt.value, 0, MANTA_MAX_BUTTON_VALUE, buttonMap[evt.id]->min, buttonMap[evt.id]->max));
     }
 }
 
-void MantaAudioUnitController::PadVelocityEvent(ofxMantaEvent & evt)
+void MantaSuperColliderController::PadVelocityEvent(ofxMantaEvent & evt)
 {
     if (midiMap.count(evt.id) != 0)
     {
         int note = midiMap[evt.id];
         if (evt.value == 0) {
-            audioUnit->midiNoteOff(note, evt.value);
+            //audioUnit->midiNoteOff(note, evt.value);
         }
         else {
-            audioUnit->midiNoteOn(note, evt.value);
+            //audioUnit->midiNoteOn(note, evt.value);
         }
     }
 }
 
-void MantaAudioUnitController::ButtonVelocityEvent(ofxMantaEvent & evt)
+void MantaSuperColliderController::ButtonVelocityEvent(ofxMantaEvent & evt)
 {
     
 }
 
-void MantaAudioUnitController::setupTheory()
+void MantaSuperColliderController::setupTheory()
 {
     int major_[7]  = {0, 2, 4, 5, 7, 9, 11};
     int minorN_[7] = {0, 2, 3, 5, 7, 8, 10};
@@ -150,14 +150,14 @@ void MantaAudioUnitController::setupTheory()
     octave = 5;
 }
 
-void MantaAudioUnitController::getChord(int chord[], int root, int octave)
+void MantaSuperColliderController::getChord(int chord[], int root, int octave)
 {
     for (int i=0; i<3; i++) {
         chord[i] = (octave + floor((root + 2 * i) / 7)) * 12 + major[(root + 2 * i) % 7];
     }
 }
 
-int MantaAudioUnitController::getNoteAtScaleDegree(int root, int degree, int mode, int octave)
+int MantaSuperColliderController::getNoteAtScaleDegree(int root, int degree, int mode, int octave)
 {
     if      (mode  < 7) {
         return (octave + floor((mode + degree) / 7)) * 12 + root + major[(mode + degree) % 7] - major[mode];

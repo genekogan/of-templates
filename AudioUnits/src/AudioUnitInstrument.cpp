@@ -1,17 +1,17 @@
 #include "AudioUnitInstrument.h"
 
 
-AudioUnitInstrumentParameter::AudioUnitInstrumentParameter(ofxAudioUnitSampler *synth, AudioUnitParameterInfo parameter, int idx)
+AudioUnitInstrumentParameter::AudioUnitInstrumentParameter(ofxAudioUnitSampler *synth, AudioUnitParameterInfo parameter, int index)
 {
     this->synth = synth;
-    this->idx = idx;
+    this->index = index;
     value.set(parameter.name, parameter.defaultValue, parameter.minValue, parameter.maxValue);
     value.addListener(this, &AudioUnitInstrumentParameter::parameterChanged);
 }
 
 void AudioUnitInstrumentParameter::parameterChanged(float & v)
 {
-    synth->setParameter(idx, 0, value);
+    synth->setParameter(index, 0, value);
 }
 
 void AudioUnitInstrumentParameter::setValue(float v)
@@ -47,11 +47,10 @@ void AudioUnitInstrument::draw(int x_, int y_)
             string s = ofToString("Group "+ofToString(clumpId));
             y += 8;
             ofDrawBitmapString(s, x, y);
+            y += 15;
         }
-        else {
-            string s = ofToString(params[p].name) + " (" + ofToString(params[p].minValue) + "," + ofToString(params[p].maxValue) + ")";
-            ofDrawBitmapString(s, x + 8, y);
-        }
+        string s = ofToString(params[p].name) + " (" + ofToString(params[p].minValue) + "," + ofToString(params[p].maxValue) + ")";
+        ofDrawBitmapString(s, x + 8, y);
         y += 15;
         if (y > 560) {
             x += 240;
@@ -67,14 +66,14 @@ ofParameter<float> & AudioUnitInstrument::getParameter(string name)
     {
         if (name == params[p].name)
         {
-            AudioUnitInstrumentParameter* newParameter = new AudioUnitInstrumentParameter(&synth, params[p], p);
-            parameters[p] = newParameter;
-            
             AudioUnitParameter param = {synth, p, kAudioUnitScope_Global, 0};
             AUListenerAddParameter(auEventListener, this, &param);
-            
-            return newParameter->getParameter();
+            parameters[p] = new AudioUnitInstrumentParameter(&synth, params[p], p);
+            return parameters[p]->getParameter();
         }
     }
+    // if we got here, no such parameter exists
+    ofLog(OF_LOG_ERROR, "No parameter called "+name+" found");
+    return;
 }
 

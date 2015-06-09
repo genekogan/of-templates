@@ -1,7 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxAudioUnit.h"
+#include "ofxAbletonLive.h"
+#include "ofxMidi.h"
 #include "MantaStats.h"
 
 
@@ -13,12 +14,12 @@ struct MantaParameterMapping
 };
 
 
-class MantaAudioUnitController : public MantaStats
+class MantaAbletonController : public MantaStats
 {
 public:
-    MantaAudioUnitController();
-    void setAudioUnit(ofxAudioUnitSampler *audioUnit);
-
+    MantaAbletonController();
+    ~MantaAbletonController();
+    
     void mapPadToParameter(int row, int col, ofParameter<float> & parameter);
     void mapSliderToParameter(int index, ofParameter<float> & parameter);
     void mapButtonToParameter(int index, ofParameter<float> & parameter);
@@ -44,9 +45,9 @@ private:
     void setupTheory();
     void getChord(int chord[], int root, int octave=0);
     int getNoteAtScaleDegree(int root, int degree, int mode, int octave);
-    
-    ofxAudioUnitSampler *audioUnit;
-    
+
+    ofxMidiOut midiOut;
+
     map<int, MantaParameterMapping*> padMap;
     map<int, MantaParameterMapping*> sliderMap;
     map<int, MantaParameterMapping*> buttonMap;

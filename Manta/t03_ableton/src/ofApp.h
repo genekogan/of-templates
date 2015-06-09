@@ -1,15 +1,16 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxAudioUnit.h"
-#include "AudioUnitInstrument.h"
-#include "MantaAudioUnitController.h"
+#include "ofxAbletonLive.h"
+#include "MantaAbletonController.h"
 
 class ofApp : public ofBaseApp{
 public:
     void setup();
     void update();
     void draw();
+    
+    void abletonLoaded();
     
     void keyPressed(int key);
     void keyReleased(int key);
@@ -21,11 +22,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    AudioUnitInstrument synth;
-    ofxAudioUnitMixer mixer;
-    ofxAudioUnitOutput output;
-
-    MantaAudioUnitController manta;
+    MantaAbletonController manta;
+    ofxAbletonLive live;
     
     int drawView;
 };

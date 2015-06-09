@@ -25,6 +25,7 @@ public:
     ofParameter<float> & getPadSum() {return padSum;}
     ofParameter<float> & getPadAverage() {return padAverage;}
     ofParameter<float> & getPerimeter() {return perimeter;}
+    ofParameter<float> & getArea() {return area;}
     ofParameter<float> & getAverageInterFingerDistance() {return averageInterFingerDistance;}
     ofParameter<float> & getCentroidX() {return centroidX;}
     ofParameter<float> & getCentroidY() {return centroidY;}
@@ -38,6 +39,7 @@ public:
     ofParameter<float> & getPadSumVelocity() {return padSumVelocity;}
     ofParameter<float> & getPadAverageVelocity() {return padAverageVelocity;}
     ofParameter<float> & getPerimeterVelocity() {return perimeterVelocity;}
+    ofParameter<float> & getAreaVelocity() {return areaVelocity;}
     ofParameter<float> & getAverageInterFingerDistanceVelocity() {return averageInterFingerDistanceVelocity;}
     ofParameter<float> & getCentroidVelocityX() {return centroidVelocityX;}
     ofParameter<float> & getCentroidVelocityY() {return centroidVelocityY;}
@@ -52,17 +54,17 @@ public:
     void setButtonSelection(vector<int> idx, int selection);
     
     ofPoint getPositionAtPad(int row, int col);
-
+    
 protected:
     
     void update();
-
+    
     void mousePressed(ofMouseEventArgs &evt);
     void mouseDragged(ofMouseEventArgs &evt);
     void mouseReleased(ofMouseEventArgs &evt);
     void keyPressed(ofKeyEventArgs &e);
-    void keyReleased(ofKeyEventArgs &e);    
-
+    void keyReleased(ofKeyEventArgs &e);
+    
     int getSizeSelection();
     void getMantaElementsInBox(int x, int y);
     void setMouseResponders();
@@ -70,7 +72,7 @@ protected:
     ofEvent<int> eventPadClick;
     ofEvent<int> eventSliderClick;
     ofEvent<int> eventButtonClick;
-
+    
     ofxConvexHull convexHull;
     ofRectangle padPositions[48], sliderPositions[2], buttonPositions[4];
     ofRectangle mainDrawRect, statsDrawRect;
@@ -84,7 +86,7 @@ protected:
     ofParameter<float> velocityLerpRate;
     
     // finger trackers
-    vector<ofPoint> fingers, fingersHull, fingersHullNormalized;
+    vector<ofPoint> fingers, fingersHull;//, fingersHullNormalized;
     vector<float> fingerValues;
     
     // tracking pads and sliders (for velocity)
@@ -101,7 +103,7 @@ protected:
     ofParameter<float> centroidX, centroidY;
     ofParameter<float> weightedCentroidX, weightedCentroidY;
     ofParameter<float> averageInterFingerDistance;
-    ofParameter<float> perimeter;
+    ofParameter<float> perimeter, area;
     ofParameter<float> padWidth, padHeight, whRatio;
     
     // velocity statistics
@@ -110,8 +112,11 @@ protected:
     ofParameter<float> centroidVelocityX, centroidVelocityY;
     ofParameter<float> weightedCentroidVelocityX, weightedCentroidVelocityY;
     ofParameter<float> averageInterFingerDistanceVelocity;
-    ofParameter<float> perimeterVelocity;
+    ofParameter<float> perimeterVelocity, areaVelocity;
     ofParameter<float> widthVelocity, heightVelocity, whRatioVelocity;
+    
+    // velocity epsilon threshold
+    float EPSILON;
     
     // selection
     int selection;
