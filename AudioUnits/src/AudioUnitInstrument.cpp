@@ -34,7 +34,6 @@ void AudioUnitInstrument::audioUnitParameterChanged(void *context, void *object,
     ((AudioUnitInstrument *) context)->parameters[event->mArgument.mParameter.mParameterID]->setValue(parameterValue);
 }
 
-
 void AudioUnitInstrument::draw(int x_, int y_)
 {
     int x = x_;

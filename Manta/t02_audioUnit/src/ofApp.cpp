@@ -25,6 +25,25 @@ void ofApp::setup(){
     // changing key/mode
     manta.setKey(0);    // 0=C
     manta.setMode(0);   // 0=ionian ... 6=locrian, 7=natural min., 8=harmonic, 9=melodic
+    
+    
+    // AUDIO UNIT
+    // AUDIO UNIT PRESET FILE
+    //
+    // MIDI
+    //  - KEY
+    //  - MODE
+    //
+    // PARAM MAPPINGS
+    //  - PADS
+    //    - min, max range
+    //  - SLIDERS
+    //  - BUTTONS
+    //  - STATS
+    //    *** add map()toParameter method to regular example
+    //
+    // PAD MIDI MAPPING
+    //  - which pads
 }
 
 //--------------------------------------------------------------

@@ -4,7 +4,7 @@ void ofApp::setup(){
     kinect.setup(12345);
     renderer.setup(kinect.getSkeletons());
     
-    drawView = 1;
+    drawView = 2;
     
     synth.setup('aumu', 'Aalt', 'MLbs');
     synth.showUI();
@@ -12,24 +12,42 @@ void ofApp::setup(){
     synth.getSynth().connectTo(mixer, 0);
     mixer.connectTo(output);
     output.start();
+    
 }
 
 void ofApp::update(){
     kinect.update();
     
+    float rv2 = ofClamp(ofMap(ofGetMouseX(), 0, ofGetWidth(), 0, 20000), 0, 20000);
+    synth.getParameter("filter_cutoff").set(rv2);
+
+    
+    if (kinect.hasSkeletons()) {
+        
+        float rv = ofClamp(ofMap(kinect.getNearestSkeleton()->getHandRight().y(),
+                                 -10, 20, 0, 1), 0, 1);
+        synth.getParameter("output_reverb").set(rv);
+
+        float co = ofClamp(ofMap(kinect.getNearestSkeleton()->getHandRight().y(),
+                                    -10, 20, 0, 1), 0, 20000);
+        synth.getParameter("filter_cutoff").set(co);
+
+        //kinect.getNearestSkeleton()->getHandRight().getPositionY()
+    }
+    
+    /*
     if (!isMapped && kinect.hasSkeletons())
     {
         isMapped = true;
-        
         skeleton = kinect.getNearestSkeleton();
-        
-        mapper.addCorrespondencePair(skeleton->getHead().getPositionZ(), &synth.getParameter("output_reverb"));
+//        mapper.addCorrespondencePair(skeleton->getHead().getPositionZ(), &synth.getParameter("output_reverb"));
 //        mapper.addCorrespondencePair(skeleton->getHead().getPositionY(), &synth.getParameter("delay_drive"));
     }
     
     if (isMapped && kinect.hasSkeletons()) {
         mapper.update();
     }
+     */
 }
 
 void ofApp::draw(){
@@ -46,7 +64,6 @@ void ofApp::draw(){
     else if (drawView == 3) {
         mapper.draw();
     }
-
 }
 
 void ofApp::keyPressed(int key){
