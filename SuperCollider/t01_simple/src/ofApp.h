@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "SuperCollider.h"
 
 class ofApp : public ofBaseApp{
 
@@ -19,4 +20,15 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+    
+    SuperCollider sc3;
+    
+    SuperColliderSynth *reverb;
+    SuperColliderSynth *synth;
+    ofxSCGroup *group;
+    
+    ofxSCBus *bus;
+    
+    ofParameter<float> mix;
+    ofParameter<float> freq;
 };

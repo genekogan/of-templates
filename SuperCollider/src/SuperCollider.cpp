@@ -68,6 +68,5 @@ void SuperCollider::draw()
     for (; it != synths.end(); ++it) {
         s += (*it)->getInfo() + "\n";
     }
-    
     ofDrawBitmapString(s, 50, 50);
 }

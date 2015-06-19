@@ -10,7 +10,7 @@ public:
     SuperColliderSynthParameter(ofxSCSynth *synth, string name, float min, float max);
     void parameterChanged(float & v);
     ofParameter<float> & getParameter() {return parameter;}
-
+private:
     ofxSCSynth *synth;
     ofParameter<float> parameter;
 };
@@ -37,7 +37,6 @@ public:
     void free() {synth->free();}
     
 private:
-    
     ofxSCSynth *synth;
     vector<SuperColliderSynthParameter*> parameters;
 };
@@ -47,10 +46,13 @@ class SuperCollider
 {
 public:
     ~SuperCollider();
-    
     void draw();
-    
     SuperColliderSynth * addSynth(string name);
     
+    
+    float choose(vector<float> )
+    
+    
+private:
     vector<SuperColliderSynth*> synths;
 };
