@@ -76,3 +76,12 @@ ofParameter<float> & AudioUnitInstrument::getParameter(string name)
     return;
 }
 
+void AudioUnitInstrument::savePreset(string filename)
+{
+    synth.saveCustomPresetAtPath(ofToDataPath(filename));
+}
+
+void AudioUnitInstrument::loadPreset(string filename)
+{
+    synth.loadCustomPresetAtPath(ofToDataPath(filename));
+}

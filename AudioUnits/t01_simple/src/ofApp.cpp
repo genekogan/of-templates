@@ -16,8 +16,11 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 
-    if (ofGetKeyPressed()) p.set((float) ofGetMouseX() / ofGetWidth());
-    cout << p << endl;
+    if (ofGetKeyPressed()) {
+        //p.set((float) ofGetMouseX() / ofGetWidth());
+    }
+    
+    cout << p.getName() << " = " << p << endl;
 }
 
 //--------------------------------------------------------------
@@ -28,7 +31,8 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if (key=='1')   synth.savePreset("myPreset1");
+    if (key=='2')   synth.loadPreset("myPreset1");
 }
 
 //--------------------------------------------------------------

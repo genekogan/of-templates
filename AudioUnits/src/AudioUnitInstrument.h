@@ -31,6 +31,9 @@ public:
     ofxAudioUnitSampler & getSynth() {return synth;}
     ofParameter<float> & getParameter(string name);
     
+    void savePreset(string filename);
+    void loadPreset(string filename);
+    
 private:
     
     static void audioUnitParameterChanged(void * context, void * object, const AudioUnitEvent * event, UInt64 hostTime, AudioUnitParameterValue value);
