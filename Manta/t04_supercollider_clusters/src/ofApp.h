@@ -12,6 +12,10 @@
  }).add;
 */
 
+
+
+
+
 class ofApp : public ofBaseApp
 {
     
@@ -30,12 +34,14 @@ public:
     void mouseReleased(int x, int y, int button);
     void windowResized(int w, int h);
     
+    void padVelocityEvent(ofxMantaEvent & evt);
     MantaSuperColliderController manta;
 
     SuperCollider sc3;
-    SuperColliderSynth *synth;
-    
-    ofParameter<float> cf, mf, ma;
+    SuperColliderSynth *reverb;
+    map<int, SuperColliderSynth*> synths;
+    ofxSCGroup *group;
+    ofxSCBus *bus;
     
     int drawView;
 };

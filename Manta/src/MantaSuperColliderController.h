@@ -16,19 +16,11 @@ class MantaSuperColliderController : public MantaStats
 {
 public:
     MantaSuperColliderController();
-//    void setAudioUnit(ofxAudioUnitSampler *audioUnit);
 
     void mapPadToParameter(int row, int col, ofParameter<float> & parameter);
     void mapSliderToParameter(int index, ofParameter<float> & parameter);
     void mapButtonToParameter(int index, ofParameter<float> & parameter);
-
-    void mapSelectionToMidiNotes();
-    void mapAllPadsToMidiNotes();
-    void clearMidiMapping();
     
-    void setKey(int key);
-    void setMode(int mode);
-
 private:
     
     void PadEvent(ofxMantaEvent & evt);
@@ -36,23 +28,8 @@ private:
     void ButtonEvent(ofxMantaEvent & evt);
     void PadVelocityEvent(ofxMantaEvent & evt);
     void ButtonVelocityEvent(ofxMantaEvent & evt);
-
-    void resetMidiMapping();
-    void setMidiMapping(int idx);
-    
-    void setupTheory();
-    void getChord(int chord[], int root, int octave=0);
-    int getNoteAtScaleDegree(int root, int degree, int mode, int octave);
-    
-//    ofxAudioUnitSampler *audioUnit;
     
     map<int, MantaParameterMapping*> padMap;
     map<int, MantaParameterMapping*> sliderMap;
     map<int, MantaParameterMapping*> buttonMap;
-    map<int, int> midiMap;
-
-    vector<int> major, minorM, minorH, minorN;
-    int mode;
-    int key;
-    int octave;
 };

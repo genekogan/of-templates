@@ -25,74 +25,11 @@ void MantaSuperColliderController::mapButtonToParameter(int index, ofParameter<f
 
 MantaSuperColliderController::MantaSuperColliderController() : MantaStats()
 {
-    setupTheory();
     ofAddListener(padEvent, this, &MantaSuperColliderController::PadEvent);
     ofAddListener(sliderEvent, this, &MantaSuperColliderController::SliderEvent);
     ofAddListener(buttonEvent, this, &MantaSuperColliderController::ButtonEvent);
     ofAddListener(padVelocityEvent, this, &MantaSuperColliderController::PadVelocityEvent);
     ofAddListener(buttonVelocityEvent, this, &MantaSuperColliderController::ButtonVelocityEvent);
-}
-//
-//void MantaSuperColliderController::setAudioUnit(ofxAudioUnitSampler *audioUnit)
-//{
-//    this->audioUnit = audioUnit;
-//}
-
-void MantaSuperColliderController::mapSelectionToMidiNotes()
-{
-    clearMidiMapping();
-    vector<int> selection = getPadSelection();
-    for (auto s : selection) {
-        setMidiMapping(s);
-    }
-}
-
-void MantaSuperColliderController::mapAllPadsToMidiNotes()
-{
-    clearMidiMapping();
-    for (int r = 0; r < 6; r++) {
-        for (int c = 0; c < 8; c++) {
-            addPadToSelection(r, c);
-        }
-    }
-    mapSelectionToMidiNotes();
-}
-
-void MantaSuperColliderController::clearMidiMapping()
-{
-    midiMap.clear();
-    markAllPads(Manta::Off);
-}
-
-void MantaSuperColliderController::resetMidiMapping()
-{
-    map<int, int>::iterator it = midiMap.begin();
-    for (; it != midiMap.end(); ++it) {
-        setMidiMapping(it->first);
-    }
-}
-
-void MantaSuperColliderController::setMidiMapping(int idx)
-{
-    int row = floor(idx / 8);
-    int col = idx % 8;
-    int degree = (2 * row - (int)(row / 2) + col) % 7;
-    int octave1 = octave + floor((2 * row - floor(row / 2) + col) / 7);
-    midiMap[idx] = getNoteAtScaleDegree(key, degree, mode, octave1);
-    setLedManual(true);
-    setPadLedState(row, col, Manta::Red);
-}
-
-void MantaSuperColliderController::setKey(int key)
-{
-    this->key = key;
-    resetMidiMapping();
-}
-
-void MantaSuperColliderController::setMode(int mode)
-{
-    this->mode = mode;
-    resetMidiMapping();
 }
 
 void MantaSuperColliderController::PadEvent(ofxMantaEvent & evt)
@@ -118,57 +55,10 @@ void MantaSuperColliderController::ButtonEvent(ofxMantaEvent & evt)
 
 void MantaSuperColliderController::PadVelocityEvent(ofxMantaEvent & evt)
 {
-    if (midiMap.count(evt.id) != 0)
-    {
-        int note = midiMap[evt.id];
-        if (evt.value == 0) {
-            //audioUnit->midiNoteOff(note, evt.value);
-        }
-        else {
-            //audioUnit->midiNoteOn(note, evt.value);
-        }
-    }
+
 }
 
 void MantaSuperColliderController::ButtonVelocityEvent(ofxMantaEvent & evt)
 {
     
-}
-
-void MantaSuperColliderController::setupTheory()
-{
-    int major_[7]  = {0, 2, 4, 5, 7, 9, 11};
-    int minorN_[7] = {0, 2, 3, 5, 7, 8, 10};
-    int minorH_[7] = {0, 2, 3, 5, 7, 8, 11};
-    int minorM_[7] = {0, 2, 3, 5, 7, 9, 11};
-    for (auto m : major_)   major.push_back(m);
-    for (auto m : minorN_)  minorN.push_back(m);
-    for (auto m : minorH_)  minorH.push_back(m);
-    for (auto m : minorM_)  minorM.push_back(m);
-    key = 0;
-    mode = 0;
-    octave = 5;
-}
-
-void MantaSuperColliderController::getChord(int chord[], int root, int octave)
-{
-    for (int i=0; i<3; i++) {
-        chord[i] = (octave + floor((root + 2 * i) / 7)) * 12 + major[(root + 2 * i) % 7];
-    }
-}
-
-int MantaSuperColliderController::getNoteAtScaleDegree(int root, int degree, int mode, int octave)
-{
-    if      (mode  < 7) {
-        return (octave + floor((mode + degree) / 7)) * 12 + root + major[(mode + degree) % 7] - major[mode];
-    }
-    else if (mode == 7) {
-        return (octave + floor(degree / 7)) * 12 + root + minorN[degree % 7];
-    }
-    else if (mode == 8) {
-        return (octave + floor(degree / 7)) * 12 + root + minorH[degree % 7];
-    }
-    else if (mode == 9) {
-        return (octave + floor(degree / 7)) * 12 + root + minorM[degree % 7];
-    }
 }

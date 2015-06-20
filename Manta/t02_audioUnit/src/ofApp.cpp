@@ -5,7 +5,7 @@
 void ofApp::setup(){
     drawView = 1;
     
-    synth.setup('aumu', 'Aalt', 'MLbs');
+    synth.setup("Aalto", 'aumu', 'Aalt', 'MLbs');
     synth.showUI();
     
     synth.getSynth().connectTo(mixer, 0);
@@ -13,11 +13,19 @@ void ofApp::setup(){
     output.start();
     
     manta.setup();
-    manta.setAudioUnit(&synth.getSynth());
+    manta.addAudioUnit(&synth);
     
+    // instead of manually assigning mappings, key, and mode, load from file
+    manta.loadPreset("presetTest");
+    
+    
+    return;
     // map sliders to reverb and cutoff parameters
-    manta.mapSliderToParameter(0, synth.getParameter("output_reverb"));
-    manta.mapSliderToParameter(1, synth.getParameter("filter_cutoff"));
+    manta.mapPadToParameter(3, 4, synth, "filter_cutoff");
+    manta.mapButtonToParameter(2, synth, "output_reverb");
+
+    manta.mapSliderToParameter(0, synth, "output_reverb");
+    manta.mapSliderToParameter(1, synth, "filter_cutoff");
 
     // map all pads to midi notes
     manta.mapAllPadsToMidiNotes();
@@ -26,24 +34,8 @@ void ofApp::setup(){
     manta.setKey(0);    // 0=C
     manta.setMode(0);   // 0=ionian ... 6=locrian, 7=natural min., 8=harmonic, 9=melodic
     
-    
-    // AUDIO UNIT
-    // AUDIO UNIT PRESET FILE
-    //
-    // MIDI
-    //  - KEY
-    //  - MODE
-    //
-    // PARAM MAPPINGS
-    //  - PADS
-    //    - min, max range
-    //  - SLIDERS
-    //  - BUTTONS
-    //  - STATS
-    //    *** add map()toParameter method to regular example
-    //
-    // PAD MIDI MAPPING
-    //  - which pads
+    // save all parameter and midi mappings, key, and mode
+    //manta.savePreset("presetTest");
 }
 
 //--------------------------------------------------------------
@@ -65,6 +57,7 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+
     if (key=='z') {
         manta.mapSelectionToMidiNotes();
     }
@@ -74,12 +67,12 @@ void ofApp::keyPressed(int key){
     else if (key=='2') {
         drawView = 2;
     }
-    
-    else if (key=='a')  manta.setKey(-12);
-    else if (key=='s')  manta.setKey(-24);
-    else if (key=='d')  manta.setKey(-36);
-    else if (key=='f')  manta.setKey(-48);
-    else if (key=='g')  manta.setKey(-60);
+    else if (key=='a') {
+        manta.setKey(-12);
+    }
+    else if (key=='s') {
+        manta.savePreset("presetTest");
+    }
 }
 
 //--------------------------------------------------------------

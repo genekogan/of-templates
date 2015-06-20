@@ -1,26 +1,27 @@
 #include "MantaAudioUnitController.h"
 
-MantaParameterMapping::MantaParameterMapping(ofParameter<float> & parameter_)
+MantaParameterMapping::MantaParameterMapping(AudioUnitInstrument & synth, string parameterName)
 {
-    this->parameter.makeReferenceTo(parameter_);
+    this->synthName = synth.getName();
+    this->parameter.makeReferenceTo(synth.getParameter(parameterName));
     this->min = parameter.getMin();
     this->max = parameter.getMax();
 }
 
-void MantaAudioUnitController::mapPadToParameter(int row, int column, ofParameter<float> & parameter)
+void MantaAudioUnitController::mapPadToParameter(int row, int column, AudioUnitInstrument & synth, string parameterName)
 {
-    padMap[row * 8 + column] = new MantaParameterMapping(parameter);
+    padMap[row * 8 + column] = new MantaParameterMapping(synth, parameterName);
     setPadLedState(row, column, Manta::Red);
 }
 
-void MantaAudioUnitController::mapSliderToParameter(int index, ofParameter<float> & parameter)
+void MantaAudioUnitController::mapSliderToParameter(int index, AudioUnitInstrument & synth, string parameterName)
 {
-    sliderMap[index] = new MantaParameterMapping(parameter);
+    sliderMap[index] = new MantaParameterMapping(synth, parameterName);
 }
 
-void MantaAudioUnitController::mapButtonToParameter(int index, ofParameter<float> & parameter)
+void MantaAudioUnitController::mapButtonToParameter(int index, AudioUnitInstrument & synth, string parameterName)
 {
-    buttonMap[index] = new MantaParameterMapping(parameter);
+    buttonMap[index] = new MantaParameterMapping(synth, parameterName);
 }
 
 MantaAudioUnitController::MantaAudioUnitController() : MantaStats()
@@ -33,9 +34,9 @@ MantaAudioUnitController::MantaAudioUnitController() : MantaStats()
     ofAddListener(buttonVelocityEvent, this, &MantaAudioUnitController::ButtonVelocityEvent);
 }
 
-void MantaAudioUnitController::setAudioUnit(ofxAudioUnitSampler *audioUnit)
+void MantaAudioUnitController::addAudioUnit(AudioUnitInstrument *audioUnit)
 {
-    this->audioUnit = audioUnit;
+    synths[audioUnit->getName()] = audioUnit;
 }
 
 void MantaAudioUnitController::mapSelectionToMidiNotes()
@@ -122,10 +123,10 @@ void MantaAudioUnitController::PadVelocityEvent(ofxMantaEvent & evt)
     {
         int note = midiMap[evt.id];
         if (evt.value == 0) {
-            audioUnit->midiNoteOff(note, evt.value);
+//            audioUnit->midiNoteOff(note, evt.value);
         }
         else {
-            audioUnit->midiNoteOn(note, evt.value);
+//            audioUnit->midiNoteOn(note, evt.value);
         }
     }
 }
@@ -171,4 +172,182 @@ int MantaAudioUnitController::getNoteAtScaleDegree(int root, int degree, int mod
     else if (mode == 9) {
         return (octave + floor(degree / 7)) * 12 + root + minorM[degree % 7];
     }
+}
+
+void MantaAudioUnitController::savePreset(string name)
+{
+    ofXml xml;
+    xml.addChild("MantaAudioUnitController");
+    xml.setTo("MantaAudioUnitController");
+
+    xml.addChild("AudioUnits");
+    xml.setTo("AudioUnits");
+    map<string, AudioUnitInstrument*>::iterator ita = synths.begin();
+    for (; ita != synths.end(); ++ita) {
+        ofXml xml_;
+        xml_.addChild("AudioUnit");
+        xml_.setTo("AudioUnit");
+        xml_.addValue("Name", ita->second->getName());
+        xml_.addValue("Preset", name+".aupreset");
+        xml.addXml(xml_);
+        synths[ita->second->getName()]->getSynth().saveCustomPresetAtPath(ofToDataPath(name+".aupreset"));
+    }
+    xml.setToParent();
+    
+    xml.addChild("Manta");
+    xml.setTo("Manta");
+    xml.addValue("Key", key);
+    xml.addValue("Mode", mode);
+    
+    xml.addChild("Pads");
+    xml.setTo("Pads");
+    
+    map<int, MantaParameterMapping*>::iterator itp = padMap.begin();
+    for (; itp != padMap.end(); ++itp) {
+        ofXml xml_;
+        xml_.addChild("PadMapping");
+        xml_.setTo("PadMapping");
+        xml_.addValue("Id", itp->first);
+        xml_.addValue("SynthName", itp->second->synthName);
+        xml_.addValue("ParameterName", itp->second->parameter.getName());
+        xml_.addValue("Min", itp->second->min);
+        xml_.addValue("Max", itp->second->max);
+        xml.addXml(xml_);
+    }
+    xml.setToParent();
+
+    xml.addChild("Sliders");
+    xml.setTo("Sliders");
+
+    map<int, MantaParameterMapping*>::iterator its = sliderMap.begin();
+    for (; its != sliderMap.end(); ++its) {
+        ofXml xml_;
+        xml_.addChild("SliderMapping");
+        xml_.setTo("SliderMapping");
+        xml_.addValue("Id", its->first);
+        xml_.addValue("SynthName", its->second->synthName);
+        xml_.addValue("ParameterName", its->second->parameter.getName());
+        xml_.addValue("Min", its->second->min);
+        xml_.addValue("Max", its->second->max);
+        xml.addXml(xml_);
+    }
+    xml.setToParent();
+    
+    xml.addChild("Buttons");
+    xml.setTo("Buttons");
+    map<int, MantaParameterMapping*>::iterator itb = buttonMap.begin();
+    for (; itb != buttonMap.end(); ++itb) {
+        ofXml xml_;
+        xml_.addChild("ButtonMapping");
+        xml_.setTo("ButtonMapping");
+        xml_.addValue("Id", itb->first);
+        xml_.addValue("SynthName", itb->second->synthName);
+        xml_.addValue("ParameterName", itb->second->parameter.getName());
+        xml_.addValue("Min", itb->second->min);
+        xml_.addValue("Max", itb->second->max);
+        xml.addXml(xml_);
+    }
+    xml.setToParent();
+    
+    xml.addChild("MidiMap");
+    xml.setTo("MidiMap");
+    map<int, int>::iterator itm = midiMap.begin();
+    for (; itm != midiMap.end(); ++itm) {
+        ofXml xml_;
+        xml_.addChild("MidiMapping");
+        xml_.setTo("MidiMapping");
+        xml_.addValue("Id", itm->first);
+        xml_.addValue("Note", itm->second);
+        xml.addXml(xml_);
+    }
+    xml.setToParent();
+    
+    xml.setToParent();
+    
+    xml.save(ofToDataPath(name+".xml"));
+}
+
+void MantaAudioUnitController::loadPreset(string name)
+{
+    ofXml xml;
+    xml.load(ofToString(name+".xml"));
+    xml.setTo("MantaAudioUnitController");
+
+    xml.setTo("AudioUnits");
+    if (xml.exists("AudioUnit[0]")) {
+        xml.setTo("AudioUnit[0]");
+        do {
+            string synthName = xml.getValue<string>("Name");
+            synths[synthName]->getSynth().loadCustomPreset(ofToDataPath(xml.getValue<string>("Preset")));
+        }
+        while(xml.setToSibling());
+        xml.setToParent();
+    }
+    xml.setToParent();
+    
+    xml.setTo("Manta");
+    
+    setKey(xml.getValue<int>("Key"));
+    setMode(xml.getValue<int>("Mode"));
+
+    xml.setTo("Pads");
+    if (xml.exists("PadMapping[0]")) {
+        xml.setTo("PadMapping[0]");
+        do {
+            int id = xml.getValue<int>("Id");
+            string synthName = xml.getValue<string>("SynthName");
+            string parameterName = xml.getValue<string>("ParameterName");
+            float min = xml.getValue<float>("Min");
+            float max = xml.getValue<float>("Max");
+            int row = floor(id / 8);
+            int col = id % 8;
+            mapPadToParameter(row, col, *synths[synthName], parameterName);
+        }
+        while(xml.setToSibling());
+        xml.setToParent();
+    }
+    xml.setToParent();
+    
+    xml.setTo("Sliders");
+    if (xml.exists("SliderMapping[0]")) {
+        xml.setTo("SliderMapping[0]");
+        do {
+            int id = xml.getValue<int>("Id");
+            string synthName = xml.getValue<string>("SynthName");
+            string parameterName = xml.getValue<string>("ParameterName");
+            float min = xml.getValue<float>("Min");
+            float max = xml.getValue<float>("Max");
+            mapSliderToParameter(id, *synths[synthName], parameterName);
+        }
+        while(xml.setToSibling());
+        xml.setToParent();
+    }
+    xml.setToParent();
+
+    xml.setTo("Buttons");
+    if (xml.exists("ButtonMapping[0]")) {
+        xml.setTo("ButtonMapping[0]");
+        do {
+            int id = xml.getValue<int>("Id");
+            string synthName = xml.getValue<string>("SynthName");
+            string parameterName = xml.getValue<string>("ParameterName");
+            float min = xml.getValue<float>("Min");
+            float max = xml.getValue<float>("Max");
+            mapButtonToParameter(id, *synths[synthName], parameterName);
+        }
+        while(xml.setToSibling());
+        xml.setToParent();
+    }
+    xml.setToParent();
+
+    xml.setTo("MidiMap");
+    if (xml.exists("MidiMapping[0]")) {
+        xml.setTo("MidiMapping[0]");
+        do {
+            setMidiMapping(xml.getValue<int>("Id"));
+        }
+        while(xml.setToSibling());
+        xml.setToParent();
+    }
+    xml.setToParent();
 }

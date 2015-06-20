@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxAudioUnit.h"
+#include "AudioUnitInstrument.h"
 #include "MantaStats.h"
 
 
@@ -9,7 +10,8 @@ struct MantaParameterMapping
 {
     float min, max;
     ofParameter<float> parameter;
-    MantaParameterMapping(ofParameter<float> & parameter_);
+    string synthName;
+    MantaParameterMapping(AudioUnitInstrument & synth, string parameterName);
 };
 
 
@@ -17,11 +19,11 @@ class MantaAudioUnitController : public MantaStats
 {
 public:
     MantaAudioUnitController();
-    void setAudioUnit(ofxAudioUnitSampler *audioUnit);
+    void addAudioUnit(AudioUnitInstrument *audioUnit);
 
-    void mapPadToParameter(int row, int col, ofParameter<float> & parameter);
-    void mapSliderToParameter(int index, ofParameter<float> & parameter);
-    void mapButtonToParameter(int index, ofParameter<float> & parameter);
+    void mapPadToParameter(int row, int col, AudioUnitInstrument & synth, string parameterName);
+    void mapSliderToParameter(int index, AudioUnitInstrument & synth, string parameterName);
+    void mapButtonToParameter(int index, AudioUnitInstrument & synth, string parameterName);
 
     void mapSelectionToMidiNotes();
     void mapAllPadsToMidiNotes();
@@ -30,6 +32,9 @@ public:
     void setKey(int key);
     void setMode(int mode);
 
+    void savePreset(string name);
+    void loadPreset(string name);
+    
 private:
     
     void PadEvent(ofxMantaEvent & evt);
@@ -45,7 +50,7 @@ private:
     void getChord(int chord[], int root, int octave=0);
     int getNoteAtScaleDegree(int root, int degree, int mode, int octave);
     
-    ofxAudioUnitSampler *audioUnit;
+    map<string, AudioUnitInstrument*> synths;
     
     map<int, MantaParameterMapping*> padMap;
     map<int, MantaParameterMapping*> sliderMap;

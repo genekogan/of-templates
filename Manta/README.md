@@ -29,3 +29,8 @@ Control Ableton Live from the Manta
 Note: you must [set up a Virtual MIDI bus to Ableton](https://www.ableton.com/en/help/article/using-virtual-MIDI-buses-live/) to be able to send note on/note off midi events.
 
 
+
+
+#### t04_supercollider
+
+manta, convexhull, supercollider src
