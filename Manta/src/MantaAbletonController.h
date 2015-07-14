@@ -1,60 +1,106 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxAbletonLive.h"
 #include "ofxMidi.h"
+#include "ofxAbletonLive.h"
 #include "MantaStats.h"
-
-
-struct MantaParameterMapping
-{
-    float min, max;
-    ofParameter<float> parameter;
-    MantaParameterMapping(ofParameter<float> & parameter_);
-};
 
 
 class MantaAbletonController : public MantaStats
 {
 public:
     MantaAbletonController();
-    ~MantaAbletonController();
+    virtual ~MantaAbletonController();
     
-    void mapPadToParameter(int row, int col, ofParameter<float> & parameter);
-    void mapSliderToParameter(int index, ofParameter<float> & parameter);
-    void mapButtonToParameter(int index, ofParameter<float> & parameter);
-
-    void mapSelectionToMidiNotes();
-    void mapAllPadsToMidiNotes();
+    void setup(ofxAbletonLive & live);
+    void update();
+    
+    void mapPadToParameter(int row, int column, int track, string deviceName, ofParameter<float> & parameter, bool toggle=false);
+    void mapSliderToParameter(int index, int track, string deviceName, ofParameter<float> & parameter);
+    void mapButtonToParameter(int index, int track, string deviceName, ofParameter<float> & parameter, bool toggle=false);
+    void mapStatToParameter(int index, int track, string deviceName, ofParameter<float> & parameter);
+    
+    void removePadMapping(int row, int column);
+    void removeSliderMapping(int index);
+    void removeButtonMapping(int index);
+    void removeStatMapping(int index);
+    
+    void mapSelectionToMidiNotes(int channel);
+    void mapAllPadsToMidiNotes(int channel);
     void clearMidiMapping();
     
     void setKey(int key);
     void setMode(int mode);
-
-private:
+    void setOctave(int octave);
+    
+    int getKey() {return key;}
+    int getMode() {return mode;}
+    int getOctave() {return octave;}
+    
+    void savePreset(string name, string alsFilePath);
+    void loadPreset(string name);
+    
+protected:
+    
+    struct MantaParameterMapping
+    {
+        float min, max;
+        bool toggle;
+        int track;
+        string deviceName;
+        ofParameter<float> parameter;
+        MantaParameterMapping(ofParameter<float> & parameter_, int track, string deviceName, bool toggle=false);
+        void toggleHighLow() {parameter.set(parameter == min ? max : min);}
+        void setRange(float min, float max, bool toggle=false);
+    };
+    
+    struct AudioUnitNotePair
+    {
+        int channel;
+        int note;
+    };
+    
+    virtual void loadPresetData();
+    virtual void abletonLoaded() { }
+    ofParameter<float> * getLiveParameter(int trackIndex, string deviceName, string parameterName);
     
     void PadEvent(ofxMantaEvent & evt);
     void SliderEvent(ofxMantaEvent & evt);
     void ButtonEvent(ofxMantaEvent & evt);
+    void StatEvent(MantaStatsArgs & evt);
     void PadVelocityEvent(ofxMantaEvent & evt);
     void ButtonVelocityEvent(ofxMantaEvent & evt);
-
+    
     void resetMidiMapping();
-    void setMidiMapping(int idx);
+    void setMidiMapping(int idx, int channel);
+    
+    void updatePadColor(int row, int column);
+    void updateButtonColor(int index);
+    
+    void freezePads();
+    void setPadFreezingEnabled(bool toFreezePads);
     
     void setupTheory();
     void getChord(int chord[], int root, int octave=0);
     int getNoteAtScaleDegree(int root, int degree, int mode, int octave);
-
-    ofxMidiOut midiOut;
-
+    
+    ofxMidiOut midi;
+    ofxAbletonLive *live;
     map<int, MantaParameterMapping*> padMap;
     map<int, MantaParameterMapping*> sliderMap;
     map<int, MantaParameterMapping*> buttonMap;
-    map<int, int> midiMap;
-
+    map<int, MantaParameterMapping*> statMap;
+    map<int, AudioUnitNotePair> midiMap;
+    
+    bool padFrozen[48];
+    bool padReleased[48];
+    bool toFreezePads;
+    
     vector<int> major, minorM, minorH, minorN;
     int mode;
     int key;
     int octave;
+    
+    bool toSetMidiLedColor;
+    string presetName;
 };

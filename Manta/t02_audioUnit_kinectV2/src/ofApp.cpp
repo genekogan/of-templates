@@ -8,7 +8,7 @@ void ofApp::setup(){
     
     drawView = 1;
     
-    synth.setup('aumu', 'Kaiv', 'MLbs');
+    synth.setup("Aalto", 'aumu', 'Kaiv', 'MLbs');
     synth.showUI();
     
     synth.getSynth().connectTo(mixer, 0);
@@ -16,11 +16,11 @@ void ofApp::setup(){
     output.start();
     
     manta.setup();
-    manta.setAudioUnit(&synth.getSynth());
+    manta.addAudioUnit(&synth);
     
     // map sliders to reverb and cutoff parameters
-    manta.mapSliderToParameter(0, synth.getParameter("output_reverb"));
-    manta.mapSliderToParameter(1, synth.getParameter("filter_cutoff"));
+    manta.mapSliderToParameter(0, synth, "output_reverb");
+    manta.mapSliderToParameter(1, synth, "filter_cutoff");
     
     // map all pads to midi notes
     manta.mapAllPadsToMidiNotes();

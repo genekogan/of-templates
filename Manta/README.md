@@ -16,9 +16,16 @@ Overview of Manta's features.
 
 #### t02_audioUnit
 
-**Requires**: [ofxManta](https://www.github.com/genekogan/ofxManta), [ofxConvexHull](https://github.com/genekogan/ofxConvexHull), [ofxAudioUnit](https://github.com/admsyn/ofxAudioUnit)
+**Requires**: [ofxManta](https://www.github.com/genekogan/ofxManta), [ofxConvexHull](https://github.com/genekogan/ofxConvexHull), [ofxAudioUnit](https://github.com/admsyn/ofxAudioUnit), [ofxUI](https://github.com/rezaali/ofxUI)
 
 Control an audio unit from the Manta
+
+
+#### t02_audioUnit_kinectV2
+
+**Requires**: [ofxManta](https://www.github.com/genekogan/ofxManta), [ofxConvexHull](https://github.com/genekogan/ofxConvexHull), [ofxAudioUnit](https://github.com/admsyn/ofxAudioUnit), [ofxKinectV2-OSC]](https://github.com/microcosm/ofxKinectV2-OSC), 
+
+Control an audio unit from the Manta and Kinect V2 (over OSC)
 
 
 #### t03_ableton

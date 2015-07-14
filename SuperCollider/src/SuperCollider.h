@@ -50,7 +50,7 @@ public:
     SuperColliderSynth * addSynth(string name);
     
     
-    float choose(vector<float> )
+//    float choose(vector<float> )
     
     
 private:

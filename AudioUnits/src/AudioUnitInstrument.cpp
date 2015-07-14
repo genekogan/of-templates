@@ -11,7 +11,8 @@ AudioUnitInstrumentParameter::AudioUnitInstrumentParameter(ofxAudioUnitSampler *
 
 void AudioUnitInstrumentParameter::parameterChanged(float & v)
 {
-    synth->setParameter(index, 0, value);
+    //synth->setParameter(index, 0, value);
+    AudioUnitSetParameter(*synth, index, kAudioUnitScope_Global, 0, value, 0);
 }
 
 void AudioUnitInstrumentParameter::setValue(float v)
@@ -19,9 +20,15 @@ void AudioUnitInstrumentParameter::setValue(float v)
     value.set(v);
 }
 
-void AudioUnitInstrument::setup(OSType type, OSType subType, OSType manufacturer)
+void AudioUnitInstrument::setup(string name, OSType type, OSType subType, OSType manufacturer)
 {
+    this->name = name;
+    this->type = type;
+    this->subType = subType;
+    this->manufacturer = manufacturer;
+    color = ofColor(ofRandom(255), ofRandom(255), ofRandom(255));
     synth = ofxAudioUnitSampler(type, subType, manufacturer);
+    loadParameterGroups();
     AUEventListenerCreate(&AudioUnitInstrument::audioUnitParameterChanged,
                           this, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode,
                           0.005, // minimum callback interval (seconds)
@@ -29,32 +36,52 @@ void AudioUnitInstrument::setup(OSType type, OSType subType, OSType manufacturer
                           &auEventListener);
 }
 
+void AudioUnitInstrument::connectTo(ofxAudioUnitMixer & mixer, int bus)
+{
+    synth.connectTo(mixer, bus);
+    this->mixer = &mixer;
+    this->bus = bus;
+}
+
 void AudioUnitInstrument::audioUnitParameterChanged(void *context, void *object, const AudioUnitEvent *event, UInt64 hostTime, AudioUnitParameterValue parameterValue)
 {
     ((AudioUnitInstrument *) context)->parameters[event->mArgument.mParameter.mParameterID]->setValue(parameterValue);
+}
+
+void AudioUnitInstrument::loadParameterGroups()
+{
+    int clumpId = -1;
+    string groupName;
+    vector<AudioUnitParameterInfo> params = synth.getParameterList();
+    for (int p = 0; p < params.size(); p++) {
+        if (params[p].clumpID != clumpId) {
+            clumpId = params[p].clumpID;
+            groupName = params[p].name;
+            vector<AudioUnitParameterInfo> parameters;
+            parameterGroups[groupName] = parameters;
+        }
+        parameterGroups[groupName].push_back(params[p]);
+    }
 }
 
 void AudioUnitInstrument::draw(int x_, int y_)
 {
     int x = x_;
     int y = y_;
-    int clumpId = -1;
-    vector<AudioUnitParameterInfo> params = synth.getParameterList();
-    for (int p = 0; p < params.size(); p++) {
-        if (params[p].clumpID != clumpId) {
-            clumpId = params[p].clumpID;
-            string s = ofToString("Group "+ofToString(clumpId));
-            y += 8;
-            ofDrawBitmapString(s, x, y);
-            y += 15;
-        }
-        string s = ofToString(params[p].name) + " (" + ofToString(params[p].minValue) + "," + ofToString(params[p].maxValue) + ")";
-        ofDrawBitmapString(s, x + 8, y);
+    int idxGroup = 0;
+    map<string, vector<AudioUnitParameterInfo> >::iterator it = parameterGroups.begin();
+    for (; it != parameterGroups.end(); ++it) {
+        string s = ofToString("Group "+ofToString(idxGroup++));
+        ofDrawBitmapString(s, x, y);
         y += 15;
-        if (y > 560) {
-            x += 240;
-            y = 20;
+        vector<AudioUnitParameterInfo>::iterator itp = it->second.begin();
+        for (; itp != it->second.end(); ++itp) {
+            string s = ofToString((*itp).name) + " (" + ofToString((*itp).minValue) + "," + ofToString((*itp).maxValue) + ")";
+            ofDrawBitmapString(s, x + 8, y);
+            x = y > 560 ? x + 240 : x;
+            y = y > 560 ? y_ : y + 15;
         }
+        y = y > 560 ? y_ : y + 8;
     }
 }
 
@@ -76,12 +103,17 @@ ofParameter<float> & AudioUnitInstrument::getParameter(string name)
     return;
 }
 
-void AudioUnitInstrument::savePreset(string filename)
+void AudioUnitInstrument::setVolume(float volume)
 {
-    synth.saveCustomPresetAtPath(ofToDataPath(filename));
+    mixer->setInputVolume(volume, bus);
 }
 
-void AudioUnitInstrument::loadPreset(string filename)
+void AudioUnitInstrument::savePreset(string name)
 {
-    synth.loadCustomPresetAtPath(ofToDataPath(filename));
+    synth.saveCustomPresetAtPath(ofToDataPath(name+".aupreset"));
+}
+
+void AudioUnitInstrument::loadPreset(string name)
+{
+    synth.loadCustomPresetAtPath(ofToDataPath(name+".aupreset"));
 }

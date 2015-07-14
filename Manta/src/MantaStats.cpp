@@ -3,14 +3,11 @@
 
 MantaStats::MantaStats() : ofxManta()
 {
-    selection = 0;
-    drawHelperLabel = true;
-    
     velocityLerpRate.set("velocity lerp", 0.1, 0.0001, 1.0);
     EPSILON = 0.00001;
     
-    numPads.set("num pads", 0, 0, 8 * 6);
-    padSum.set("pad sum", 0, 0, MANTA_MAX_PAD_VALUE * 8 * 6);
+    numPads.set("num pads", 0, 0, 48);
+    padSum.set("pad sum", 0, 0, MANTA_MAX_PAD_VALUE * 48);
     padAverage.set("pad avg", 0, 0, MANTA_MAX_PAD_VALUE);
     centroidX.set("pcentroid x", 0, 0, 1);
     centroidY.set("centroid y", 0, 0, 1);
@@ -23,8 +20,8 @@ MantaStats::MantaStats() : ofxManta()
     padHeight.set("height", 0, 0, 1);
     whRatio.set("width/height", 0, 0, 10);
     
-    numPadsVelocity.set("v num pads", 0, -8 * 6, 8 * 6);
-    padSumVelocity.set("v pad sum", 0, -MANTA_MAX_PAD_VALUE * 8 * 6, MANTA_MAX_PAD_VALUE * 8 * 6);
+    numPadsVelocity.set("v num pads", 0, -48, 48);
+    padSumVelocity.set("v pad sum", 0, -MANTA_MAX_PAD_VALUE * 8 * 6, MANTA_MAX_PAD_VALUE * 48);
     padAverageVelocity.set("v pad avg", 0, -MANTA_MAX_PAD_VALUE, MANTA_MAX_PAD_VALUE);
     centroidVelocityX.set("v pcentroid x", 0, -1, 1);
     centroidVelocityY.set("v centroid y", 0, -1, 1);
@@ -36,6 +33,23 @@ MantaStats::MantaStats() : ofxManta()
     widthVelocity.set("v width", 0, -1, 1);
     heightVelocity.set("v height", 0, -1, 1);
     whRatioVelocity.set("v width/height", 0, -1, 1);
+    
+    // stats data
+    statsInfo.push_back(MantaStatsInfo("num pads", 0, 48));
+    statsInfo.push_back(MantaStatsInfo("centroid.x", 0, 1));
+    statsInfo.push_back(MantaStatsInfo("pad sum", 0, MANTA_MAX_PAD_VALUE * 48));
+    statsInfo.push_back(MantaStatsInfo("centroid.y", 0, 1));
+    statsInfo.push_back(MantaStatsInfo("pad avg", 0, MANTA_MAX_PAD_VALUE));
+    statsInfo.push_back(MantaStatsInfo("wCentroid.x", 0, 1));
+    statsInfo.push_back(MantaStatsInfo("perimeter", 0, 1));
+    statsInfo.push_back(MantaStatsInfo("wCentroid.y", 0, 1));
+    statsInfo.push_back(MantaStatsInfo("area", 0, 1));
+    statsInfo.push_back(MantaStatsInfo("width", 0, 1));
+    statsInfo.push_back(MantaStatsInfo("bw fingers", 0, 1));
+    statsInfo.push_back(MantaStatsInfo("height", 0, 1));
+    statsInfo.push_back(MantaStatsInfo("w/h ratio", 0, 10));
+    statSelection = -1;
+    toRedrawStats = true;
 }
 
 bool MantaStats::setup()
@@ -210,22 +224,12 @@ void MantaStats::update()
     if (abs(heightVelocity) < EPSILON)    heightVelocity = 0;
     if (abs(whRatioVelocity) < EPSILON)    whRatioVelocity = 0;
     
-    padWidth = _width;
-    padHeight = _height;
-    whRatio = _whRatio;
-    perimeter = _perimeter;
-    area = _area;
-    averageInterFingerDistance = _averageInterFingerDistance;
-    padSum = _padSum;
-    padAverage = _padAverage;
-    numPads = _numPads;
-    
     // centroid and weighted centroid
     ofPoint _centroid, _weightedCentroid;
     for (int i=0; i<fingers.size(); i++)
     {
         _centroid += fingers[i];
-        _weightedCentroid += (fingers[i] * fingerValues[i] / padSum);
+        _weightedCentroid += (fingers[i] * fingerValues[i] / _padSum);
     }
     _centroid /= _numPads;
     
@@ -234,10 +238,31 @@ void MantaStats::update()
     weightedCentroidVelocityX = ofLerp(weightedCentroidVelocityX, _weightedCentroid.x-weightedCentroidX, velocityLerpRate);
     weightedCentroidVelocityY = ofLerp(weightedCentroidVelocityY, _weightedCentroid.y-weightedCentroidY, velocityLerpRate);
     
-    centroidX = _centroid.x;
-    centroidY = _centroid.y;
-    weightedCentroidX = _weightedCentroid.x;
-    weightedCentroidY = _weightedCentroid.y;
+    // update stats
+    compareStats(9, &padWidth, _width);
+    compareStats(11, &padHeight, _height);
+    compareStats(12, &whRatio, _whRatio);
+    compareStats(6, &perimeter, _perimeter);
+    compareStats(8, &area, _area);
+    compareStats(10, &averageInterFingerDistance, _averageInterFingerDistance);
+    compareStats(2, &padSum, _padSum);
+    compareStats(4, &padAverage, _padAverage);
+    compareStats(0, &numPads, _numPads);
+    compareStats(1, &centroidX, _centroid.x);
+    compareStats(3, &centroidY, _centroid.y);
+    compareStats(5, &weightedCentroidX, _weightedCentroid.x);
+    compareStats(7, &weightedCentroidY, _weightedCentroid.y);
+}
+
+void MantaStats::compareStats(int index, ofParameter<float> *statRef, float newStatValue)
+{
+    if (*statRef != newStatValue)
+    {
+        *statRef = newStatValue;
+        MantaStatsArgs args(index, *statRef);
+        ofNotifyEvent(statsEvent, args);
+        toRedrawStats = true;
+    }
 }
 
 void MantaStats::draw(int x, int y, int width)
@@ -246,18 +271,10 @@ void MantaStats::draw(int x, int y, int width)
     this->x = x;
     this->y = y;
     this->width = width;
-    
     mainDrawRect = ofRectangle(x, y, width, width * 310.0 / 400.0);
     
+    // draw ofxManta
     ofxManta::draw(x, y, width);
-    if (drawHelperLabel && mainDrawRect.inside(ofGetMouseX(), ofGetMouseY()))
-    {
-        ofPushStyle();
-        ofSetColor(255, 125, 0);
-        ofDrawBitmapString("Click select. CMD multiple. SHIFT velocity",
-                           x+3, y+mainDrawRect.getHeight()*0.22);
-        ofPopStyle();
-    }
     
     if (px != x || py != y || pwidth != width)
     {
@@ -272,73 +289,127 @@ void MantaStats::draw(int x, int y, int width)
 
 void MantaStats::drawStats(int x, int y, int w)
 {
-    int h = w * 310.0 / 400.0;
-    statsDrawRect = ofRectangle(x, y, w, h);
+    int h = w * 360.0 / 400.0;
+    int x1 = 2;
+    int x2 = 0.5 * w + 2;
+    int w0 = 0.5 * w - 4;
+    int y0 = 4;
+    int h0 = 18;
     
-    ofPushStyle();
-    ofPushMatrix();
-    
-    ofTranslate(x, y);
-    
-    ofSetColor(0);
-    ofFill();
-    ofRect(0, 0, w, h);
-    
-    // draw convex hull
-    ofNoFill();
-    ofSetColor(0, 255, 0);
-    ofSetLineWidth(1);
-    ofBeginShape();
-    for (int i=0; i<fingersHull.size(); i++)
+    if (statsDrawRect != ofRectangle(x, y, w, h))
     {
-        float x = ofMap(fingersHull[i].x, 0, 1, 0, w);
-        float y = ofMap(fingersHull[i].y, 0, 1, 0, h);
-        ofVertex(x, y);
-    }
-    ofEndShape();
-    
-    // draw fingers
-    ofFill();
-    ofSetColor(255, 0, 0);
-    ofSetLineWidth(0);
-    for (int i=0; i<fingers.size(); i++)
-    {
-        float x = ofMap(fingers[i].x, 0, 1, 0, w);
-        float y = ofMap(fingers[i].y, 0, 1, 0, h);
-        float r = ofMap(fingerValues[i], 0, 196, 0, 10);
-        ofCircle(x, y, r);
+        statsDrawRect = ofRectangle(x, y, w, h);
+        int y_ = y + y0;
+        for (int i=0; i<6; i++) {
+            statRects[i*2  ].set(x + x1, y_, w0, 14);
+            statRects[i*2+1].set(x + x2, y_, w0, 14);
+            y_ += h0;
+        }
+        statRects[12].set(x + x1, y_, w0, 14);
+        
+        fboStats.allocate(w, h);
+        toRedrawStats = true;
     }
     
-    // draw centroids
-    float cx = ofMap(centroidX, 0, 1, 0, w);
-    float cy = ofMap(centroidY, 0, 1, 0, h);
-    float wcx = ofMap(weightedCentroidX, 0, 1, 0, w);
-    float wcy = ofMap(weightedCentroidY, 0, 1, 0, h);
-    ofNoFill();
-    ofSetColor(150);
-    ofSetLineWidth(2);
-    ofLine(cx-4, cy-4, cx+4, cy+4);
-    ofLine(cx+4, cy-4, cx-4, cy+4);
-    ofSetColor(255);
-    ofLine(wcx-4, wcy-4, wcx+4, wcy+4);
-    ofLine(wcx+4, wcy-4, wcx-4, wcy+4);
+    if (toRedrawStats)
+    {
+        fboStats.begin();
+        
+        ofPushStyle();
+        ofPushMatrix();
+        
+        ofSetColor(0);
+        ofFill();
+        ofRect(0, 0, w, h);
+        
+        // draw stats
+        ofSetColor(0, 127, 0);
+        ofSetLineWidth(0);
+        ofFill();
+        ofRect(x1, y0,     ofClamp(ofMap(numPads, 0, 48, 0, w0), 0, w0), 14);
+        ofRect(x2, y0,     ofClamp(ofMap(centroidX, 0, 1, 0, w0), 0, w0), 14);
+        ofRect(x1, y0+=h0, ofClamp(ofMap(padSum, 0, MANTA_MAX_PAD_VALUE * 48, 0, w0), 0, w0), 14);
+        ofRect(x2, y0,     ofClamp(ofMap(centroidY, 0, 1, 0, w0), 0, w0), 14);
+        ofRect(x1, y0+=h0, ofClamp(ofMap(padAverage, 0, MANTA_MAX_PAD_VALUE, 0, w0), 0, w0), 14);
+        ofRect(x2, y0,     ofClamp(ofMap(weightedCentroidX, 0, 1, 0, w0), 0, w0), 14);
+        ofRect(x1, y0+=h0, ofClamp(ofMap(perimeter, 0, 1, 0, w0), 0, w0), 14);
+        ofRect(x2, y0,     ofClamp(ofMap(weightedCentroidY, 0, 1, 0, w0), 0, w0), 14);
+        ofRect(x1, y0+=h0, ofClamp(ofMap(area, 0, 1, 0, w0), 0, w0), 14);
+        ofRect(x2, y0,     ofClamp(ofMap(padWidth, 0, 1, 0, w0), 0, w0), 14);
+        ofRect(x1, y0+=h0, ofClamp(ofMap(averageInterFingerDistance, 0, 1, 0, w0), 0, w0), 14);
+        ofRect(x2, y0,     ofClamp(ofMap(padHeight, 0, 1, 0, w0), 0, w0), 14);
+        ofRect(x1, y0+=h0, ofClamp(ofMap(whRatio, 0, 10, 0, w0), 0, w0), 14);
+        
+        ofPushMatrix();
+        ofTranslate(-x, -y);
+        ofSetLineWidth(1);
+        ofNoFill();
+        for (int i=0; i<statsInfo.size(); i++)
+        {
+            statSelection == i ? ofSetColor(0, 255, 0) : ofSetColor(statsInfo[i].color);
+            ofRect(statRects[i]);
+        }
+        ofPopMatrix();
+        
+        y0 = 14;
+        ofSetColor(255);
+        for (int i=0; i<6; i++)
+        {
+            ofDrawBitmapString(statsInfo[2*i].name, x1 + 2, y0);
+            ofDrawBitmapString(statsInfo[2*i+1].name, x2 + 2, y0);
+            y0+=h0;
+        }
+        ofDrawBitmapString(statsInfo[12].name, x1 + 2, y0);
+        
+        // draw convex hull
+        ofNoFill();
+        ofSetColor(0, 255, 0);
+        ofSetLineWidth(1);
+        ofBeginShape();
+        for (int i=0; i<fingersHull.size(); i++)
+        {
+            float x = ofMap(fingersHull[i].x, 0, 1, 0, w);
+            float y = ofMap(fingersHull[i].y, 0, 1, h, y0);
+            ofVertex(x, y);
+        }
+        ofEndShape();
+        
+        // draw fingers
+        ofFill();
+        ofSetColor(255, 0, 0);
+        ofSetLineWidth(0);
+        for (int i=0; i<fingers.size(); i++)
+        {
+            float x = ofMap(fingers[i].x, 0, 1, 0, w);
+            float y = ofMap(fingers[i].y, 0, 1, h, y0);
+            float r = ofMap(fingerValues[i], 0, 196, 0, 10);
+            ofCircle(x, y, r);
+        }
+        
+        // draw centroids
+        float cx = ofMap(centroidX, 0, 1, 0, w);
+        float cy = ofMap(centroidY, 0, 1, h, y0);
+        float wcx = ofMap(weightedCentroidX, 0, 1, 0, w);
+        float wcy = ofMap(weightedCentroidY, 0, 1, h, y0);
+        ofNoFill();
+        ofSetColor(150);
+        ofSetLineWidth(2);
+        ofLine(cx-4, cy-4, cx+4, cy+4);
+        ofLine(cx+4, cy-4, cx-4, cy+4);
+        ofSetColor(255);
+        ofLine(wcx-4, wcy-4, wcx+4, wcy+4);
+        ofLine(wcx+4, wcy-4, wcx-4, wcy+4);
+        
+        ofPopMatrix();
+        ofPopStyle();
+        
+        fboStats.end();
+        
+        toRedrawStats = false;
+    }
     
-    // draw stats
     ofSetColor(255);
-    ofDrawBitmapString("pad sum", 3, 12);
-    ofDrawBitmapString("pad avg", 3, 28);
-    ofDrawBitmapString("perimeter", 3, 44);
-    ofDrawBitmapString("bw fingers", 3, 60);
-    ofSetColor(0, 255, 0);
-    ofSetLineWidth(0);
-    ofFill();
-    ofRect(75,  1, ofClamp(ofMap(padSum, 0, 1024, 0, w-80), 0, w-80), 14);
-    ofRect(75, 17, ofClamp(ofMap(padAverage, 0, 196, 0, w-80), 0, w-80), 14);
-    ofRect(75, 33, ofClamp(ofMap(perimeter, 0, 2, 0, w-80), 0, w-80), 14);
-    ofRect(75, 49, ofClamp(ofMap(averageInterFingerDistance, 0, 1, 0, w-80), 0, w-80), 14);
-    
-    ofPopMatrix();
-    ofPopStyle();
+    fboStats.draw(x, y);
 }
 
 void MantaStats::setMouseResponders()
@@ -349,8 +420,8 @@ void MantaStats::setMouseResponders()
     
     ofRectangle sliderPosition0(x + 0.08 * getDrawWidth(), y + 0.05 * getDrawHeight(), sliderSizeX, sliderSizeY);
     ofRectangle sliderPosition1(x + 0.05 * getDrawWidth(), y + 0.13 * getDrawHeight(), sliderSizeX, sliderSizeY);
-    ofRectangle buttonPosition0(x + 0.8 * getDrawWidth() - 0.5 * buttonSize, y + 0.075 * getDrawHeight() - 0.5 * buttonSize, buttonSize, buttonSize);
-    ofRectangle buttonPosition1(x + 0.9 * getDrawWidth() - 0.5 * buttonSize, y + 0.075 * getDrawHeight() - 0.5 * buttonSize, buttonSize, buttonSize);
+    ofRectangle buttonPosition0(x + 0.8  * getDrawWidth() - 0.5 * buttonSize, y + 0.075 * getDrawHeight() - 0.5 * buttonSize, buttonSize, buttonSize);
+    ofRectangle buttonPosition1(x + 0.9  * getDrawWidth() - 0.5 * buttonSize, y + 0.075 * getDrawHeight() - 0.5 * buttonSize, buttonSize, buttonSize);
     ofRectangle buttonPosition2(x + 0.85 * getDrawWidth() - 0.5 * buttonSize, y + 0.155 * getDrawHeight() - 0.5 * buttonSize, buttonSize, buttonSize);
     ofRectangle buttonPosition3(x + 0.95 * getDrawWidth() - 0.5 * buttonSize, y + 0.155 * getDrawHeight() - 0.5 * buttonSize, buttonSize, buttonSize);
     
@@ -375,16 +446,9 @@ void MantaStats::setMouseResponders()
     }
 }
 
-int MantaStats::getSizeSelection()
-{
-    return getPadSelection(0).size() + getPadSelection(1).size() +
-    getSliderSelection(0).size() + getSliderSelection(1).size() +
-    getButtonSelection(0).size() + getButtonSelection(1).size();
-}
-
 void MantaStats::getMantaElementsInBox(int x, int y)
 {
-    clearSelection(selection);
+    clearSelection();
     dragPoint2 = ofPoint(x, y);
     ofRectangle rect = ofRectangle(min(dragPoint1.x, dragPoint2.x), min(dragPoint1.y, dragPoint2.y),
                                    abs(dragPoint1.x - dragPoint2.x), abs(dragPoint1.y - dragPoint2.y));
@@ -396,7 +460,7 @@ void MantaStats::getMantaElementsInBox(int x, int y)
             rect.inside(padPositions[i].x, padPositions[i].y+ padPositions[i].height)) {
             int row = floor(i / 8);
             int col = i % 8;
-            addPadToSelection(row, col, selection);
+            addPadToSelection(row, col);
         }
     }
     for (int i=0; i<2; i++)
@@ -405,7 +469,7 @@ void MantaStats::getMantaElementsInBox(int x, int y)
             rect.inside(sliderPositions[i].x+ sliderPositions[i].width, sliderPositions[i].y) ||
             rect.inside(sliderPositions[i].x+ sliderPositions[i].width, sliderPositions[i].y+sliderPositions[i].height) ||
             rect.inside(sliderPositions[i].x, sliderPositions[i].y+ sliderPositions[i].height)) {
-            addSliderToSelection(i, selection);
+            addSliderToSelection(i);
         }
     }
     for (int i=0; i<2; i++)
@@ -414,15 +478,16 @@ void MantaStats::getMantaElementsInBox(int x, int y)
             rect.inside(buttonPositions[i].x+ buttonPositions[i].width, buttonPositions[i].y) ||
             rect.inside(buttonPositions[i].x+ buttonPositions[i].width, buttonPositions[i].y+ buttonPositions[i].height) ||
             rect.inside(buttonPositions[i].x, buttonPositions[i].y+ buttonPositions[i].height)) {
-            addButtonToSelection(i, selection);
+            addButtonToSelection(i);
         }
     }
+    redrawComponents();
 }
 
 ofPoint MantaStats::getPositionAtPad(int row, int col)
 {
     return ofPoint(ofMap(row % 2 != 0 ? col+0.5 : col, 0, 9, 0, 1),
-                   ofMap(row + 0.5, 0, 7, 1, 0));
+                   ofMap(row + 0.5, 0, 7, 0, 1));
 }
 
 void MantaStats::setPadSelection(vector<int> idx, int selection)
@@ -432,7 +497,7 @@ void MantaStats::setPadSelection(vector<int> idx, int selection)
     {
         int row = floor(idx[i] / 8);
         int col = idx[i] % 8;
-        addPadToSelection(row, col, selection);
+        addPadToSelection(row, col);
     }
 }
 
@@ -440,7 +505,7 @@ void MantaStats::setSliderSelection(vector<int> idx, int selection)
 {
     clearSliderSelection();
     for (int i = 0; i < idx.size(); i++) {
-        addSliderToSelection(idx[i], selection);
+        addSliderToSelection(idx[i]);
     }
 }
 
@@ -448,20 +513,21 @@ void MantaStats::setButtonSelection(vector<int> idx, int selection)
 {
     clearButtonSelection();
     for (int i = 0; i < idx.size(); i++) {
-        addButtonToSelection(idx[i], selection);
+        addButtonToSelection(idx[i]);
     }
 }
 
 void MantaStats::mousePressed(ofMouseEventArgs &evt)
 {
     if (!mouseActive ||
-        !mainDrawRect.inside(evt.x, evt.y))  return;
+        (!mainDrawRect.inside(evt.x, evt.y) && !statsDrawRect.inside(evt.x, evt.y)))  return;
     
     dragging = true;
     dragPoint1 = ofPoint(evt.x, evt.y);
     dragPoint2 = dragPoint1;
-    clearSelection(0);
-    clearSelection(1);
+    statSelection = -1;
+    toRedrawStats = true;
+    //clearSelection();
 }
 
 void MantaStats::mouseDragged(ofMouseEventArgs &evt)
@@ -478,6 +544,10 @@ void MantaStats::mouseReleased(ofMouseEventArgs &evt)
     if (!mouseActive ||
         !mainDrawRect.inside(evt.x, evt.y) ||
         ofDist(dragPoint1.x, dragPoint1.y, dragPoint2.x, dragPoint2.y) > 1 ) {
+    }
+    
+    if (!mouseActive ||
+        (!mainDrawRect.inside(evt.x, evt.y) && !statsDrawRect.inside(evt.x, evt.y))) {
         return;
     }
     
@@ -485,8 +555,10 @@ void MantaStats::mouseReleased(ofMouseEventArgs &evt)
     {
         if (sliderPositions[i].inside(evt.x, evt.y))
         {
-            if (!shift) clearSelection(selection);
-            addSliderToSelection(i, selection);
+            if (!shift && !getIsDragging()) clearSelection();
+            addSliderToSelection(i);
+            redrawComponents();
+            ofNotifyEvent(eventSliderClick, i);
             return;
         }
     }
@@ -494,8 +566,10 @@ void MantaStats::mouseReleased(ofMouseEventArgs &evt)
     {
         if (buttonPositions[i].inside(evt.x, evt.y))
         {
-            if (!shift) clearSelection(selection);
-            addButtonToSelection(i, selection);
+            if (!shift && !getIsDragging()) clearSelection();
+            addButtonToSelection(i);
+            redrawComponents();
+            ofNotifyEvent(eventButtonClick, i);
             return;
         }
     }
@@ -503,8 +577,22 @@ void MantaStats::mouseReleased(ofMouseEventArgs &evt)
     {
         if (padPositions[i].inside(evt.x, evt.y))
         {
-            if (!shift) clearSelection(selection);
-            addPadToSelection(floor(i / 8), i % 8, selection);
+            if (!shift && !getIsDragging()) clearSelection();
+            addPadToSelection(floor(i / 8), i % 8);
+            redrawComponents();
+            ofNotifyEvent(eventPadClick, i);
+            return;
+        }
+    }
+    for (int i=0; i<13; i++)
+    {
+        if (statRects[i].inside(evt.x, evt.y))
+        {
+            if (!shift && !getIsDragging()) clearSelection();
+            statSelection = i;
+            toRedrawStats = true;
+            redrawComponents();
+            ofNotifyEvent(eventStatClick, i);
             return;
         }
     }
@@ -512,20 +600,14 @@ void MantaStats::mouseReleased(ofMouseEventArgs &evt)
 
 void MantaStats::keyPressed(ofKeyEventArgs &e)
 {
-    if (e.key == OF_KEY_SHIFT) {
-        //selection = 1;
-    }
-    else if (e.key == OF_KEY_COMMAND) {
+    if (e.key == OF_KEY_COMMAND) {
         shift = true;
     }
 }
 
 void MantaStats::keyReleased(ofKeyEventArgs &e)
 {
-    if (e.key == OF_KEY_SHIFT) {
-        //selection = 0;
-    }
-    else if (e.key == OF_KEY_COMMAND) {
+    if (e.key == OF_KEY_COMMAND) {
         shift = false;
     }
 }

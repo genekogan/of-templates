@@ -5,6 +5,32 @@
 #include "ofxConvexHull.h"
 
 
+struct MantaStatsInfo
+{
+    string name;
+    float min;
+    float max;
+    ofColor color;
+    MantaStatsInfo(string name, float min, float max)
+    {
+        this->name = name;
+        this->min = min;
+        this->max = max;
+        color = ofColor::white;
+    }
+};
+
+struct MantaStatsArgs
+{
+    int index;
+    float value;
+    MantaStatsArgs(int index, float value)
+    {
+        this->index = index;
+        this->value = value;
+    }
+};
+
 class MantaStats : public ofxManta
 {
 public:
@@ -55,9 +81,16 @@ public:
     
     ofPoint getPositionAtPad(int row, int col);
     
+    template <typename L, typename M> void addStatListener(L *listener, M method) {ofAddListener(statsEvent, listener, method);}
+    template <typename L, typename M> void removeStatListener(L *listener, M method) {ofRemoveListener(statsEvent, listener, method);}
+    
+    MantaStatsInfo getStatsInfo(int index) {return statsInfo[index];}
+    
 protected:
     
-    void update();
+    virtual void update();
+    void compareStats(int index, ofParameter<float> *statRef, float newStatValue);
+    void setStatsColor(int index, ofColor color) {statsInfo[index].color = color;}
     
     void mousePressed(ofMouseEventArgs &evt);
     void mouseDragged(ofMouseEventArgs &evt);
@@ -65,17 +98,14 @@ protected:
     void keyPressed(ofKeyEventArgs &e);
     void keyReleased(ofKeyEventArgs &e);
     
-    int getSizeSelection();
     void getMantaElementsInBox(int x, int y);
     void setMouseResponders();
-    
-    ofEvent<int> eventPadClick;
-    ofEvent<int> eventSliderClick;
-    ofEvent<int> eventButtonClick;
+    bool getIsDragging() {return ofDist(dragPoint1.x, dragPoint1.y, dragPoint2.x, dragPoint2.y) > 40;}
     
     ofxConvexHull convexHull;
     ofRectangle padPositions[48], sliderPositions[2], buttonPositions[4];
     ofRectangle mainDrawRect, statsDrawRect;
+    ofRectangle statRects[13];
     int x, y, width, height;
     int px, py, pwidth;
     bool visible, animated;
@@ -86,7 +116,7 @@ protected:
     ofParameter<float> velocityLerpRate;
     
     // finger trackers
-    vector<ofPoint> fingers, fingersHull;//, fingersHullNormalized;
+    vector<ofPoint> fingers, fingersHull;
     vector<float> fingerValues;
     
     // tracking pads and sliders (for velocity)
@@ -115,12 +145,25 @@ protected:
     ofParameter<float> perimeterVelocity, areaVelocity;
     ofParameter<float> widthVelocity, heightVelocity, whRatioVelocity;
     
+    // stats
+    vector<MantaStatsInfo> statsInfo;
+    
     // velocity epsilon threshold
     float EPSILON;
     
     // selection
-    int selection;
     ofPoint dragPoint1, dragPoint2;
-    bool drawHelperLabel;
     bool dragging;
+    int statSelection;
+    
+    // events
+    ofEvent<int> eventPadClick;
+    ofEvent<int> eventSliderClick;
+    ofEvent<int> eventButtonClick;
+    ofEvent<int> eventStatClick;
+    ofEvent<MantaStatsArgs> statsEvent;
+    
+    // internal
+    ofFbo fboStats;
+    bool toRedrawStats;
 };

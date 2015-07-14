@@ -3,7 +3,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    synth.setup('aumu', 'Aalt', 'MLbs');
+    synth.setup("Aalto", 'aumu', 'Aalt', 'MLbs');
     synth.showUI();
 
     synth.getSynth().connectTo(mixer, 0);

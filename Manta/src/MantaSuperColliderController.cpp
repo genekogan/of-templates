@@ -1,5 +1,9 @@
 #include "MantaSuperColliderController.h"
 
+/*
+ map to parameters / triggers / volume
+ */
+
 MantaParameterMapping::MantaParameterMapping(ofParameter<float> & parameter_)
 {
     this->parameter.makeReferenceTo(parameter_);

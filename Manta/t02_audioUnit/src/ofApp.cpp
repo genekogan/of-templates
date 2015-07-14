@@ -13,22 +13,19 @@ void ofApp::setup(){
     output.start();
     
     manta.setup();
-    manta.addAudioUnit(&synth);
     
     // instead of manually assigning mappings, key, and mode, load from file
-    manta.loadPreset("presetTest");
+    //manta.loadPreset("presetTest");
     
-    
-    return;
     // map sliders to reverb and cutoff parameters
-    manta.mapPadToParameter(3, 4, synth, "filter_cutoff");
-    manta.mapButtonToParameter(2, synth, "output_reverb");
+    //manta.mapPadToParameter(3, 4, synth, "filter_cutoff");
+    //manta.mapButtonToParameter(2, synth, "output_reverb");
 
     manta.mapSliderToParameter(0, synth, "output_reverb");
     manta.mapSliderToParameter(1, synth, "filter_cutoff");
 
     // map all pads to midi notes
-    manta.mapAllPadsToMidiNotes();
+    manta.mapAllPadsToMidiNotes(synth);
     
     // changing key/mode
     manta.setKey(0);    // 0=C
@@ -59,7 +56,7 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
 
     if (key=='z') {
-        manta.mapSelectionToMidiNotes();
+        manta.mapSelectionToMidiNotes(synth);
     }
     else if (key=='1') {
         drawView = 1;
